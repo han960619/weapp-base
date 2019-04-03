@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import store from '../store'
 
-export default async (options = { method: 'GET', data: {} }) => {
+export default async (url, options = { method: 'GET', data: {} }) => {
   let {domain, accOpenid} = store.getState().common.ext
   domain = '8080'
   let sessionId = Taro.getStorageSync('sessionId')
@@ -14,7 +14,7 @@ export default async (options = { method: 'GET', data: {} }) => {
   let request = (data = {}) => {
     const {sid, idkey} = data
     return Taro.request({
-      url: domain + options.url,
+      url: domain + url,
       data: {
         sessionId: sid || sessionId,
         idKey: idkey || idKey,
