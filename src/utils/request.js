@@ -1,11 +1,27 @@
 import Taro from '@tarojs/taro';
 import store from '../store'
 
+<<<<<<< HEAD
 export default async (url, options = { method: 'GET', data: {} }, needToken = true) => {
   let domain = 'https://wxapp.xiaomafeiteng.com'
 
   let request = (data = {}) => {
     let query = {
+=======
+export default async (url, options = { method: 'GET', data: {} }) => {
+  let {domain, accOpenid} = store.getState().common.ext
+  domain = '8080'
+  let sessionId = Taro.getStorageSync('sessionId')
+  let idKey = Taro.getStorageSync('idKey')
+  let constance_data = options.no_const ? {} : {
+    channel: 'wxapp',
+    accOpenid
+  }
+
+  let request = (data = {}) => {
+    const {sid, idkey} = data
+    return Taro.request({
+>>>>>>> 9b5905715d459e8a9c903510cf67f7532a29cda4
       url: domain + url,
       data: {
         version: '1.0.29',
