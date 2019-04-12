@@ -6,20 +6,24 @@ import Title from '../../components/Title'
 
 @connect(({common}) => ({...common}))
 
-export default class Index extends Component {
+export default class Order extends Component {
 
   config = {
-    navigationBarTitleText: ''
+    navigationBarTitleText: '订单'
   }
 
   state = {
   }
 
-  componentWillMount () {
-    
-  }
+  componentWillMount () { }
 
   componentDidMount () {
+    this.props.dispatch({
+      type: 'common/changeName',
+      payload: {
+        name: '555'
+      }
+    })
   }
 
   componentWillUnmount () { }
@@ -29,8 +33,12 @@ export default class Index extends Component {
   componentDidHide () { }
 
   render () {
+    const { name } = this.props
+    let app = getApp()
     return (
       <View>
+        <Title text="这是一个标题组件" />
+        <Text>Hello world!{name}</Text>
       </View>
     )
   }

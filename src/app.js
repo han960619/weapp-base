@@ -19,6 +19,8 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/index',
+      'pages/login/index',
+      'pages/order/index',
       'pages/dashboard/index',
       'pages/tool/index'
     ],
@@ -34,14 +36,33 @@ class App extends Component {
       backgroundColor: '#fff',
       selectedColor: 'green',
       list: [
-        { pagePath: 'pages/index/index', text: '首页' },
+        { pagePath: 'pages/order/index', text: '首页' },
         { pagePath: 'pages/dashboard/index', text: '概览' },
         { pagePath: 'pages/tool/index', text: '工具' }
       ]
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    const userData = Taro.getStorageSync('userData')
+    if(userData) {
+      store.dispatch({
+        type: 'common/login',
+        payload: {
+          ...userData
+        }
+      }).then(res => {
+        Taro.setStorageSync('userData', userData )
+        Taro.reLaunch({
+          url: '/pages/order/index'
+        })
+      })
+    }else {
+      Taro.redirectTo({
+        url: '/pages/login/index'
+      })
+    }
+  }
 
   componentDidShow () {}
 

@@ -1,32 +1,25 @@
 import Taro from '@tarojs/taro';
 import store from '../store'
 
-export default async (options = { method: 'GET', data: {} }) => {
-  let {domain, accOpenid} = store.getState().common.ext
-  domain = '8080'
-  let sessionId = Taro.getStorageSync('sessionId')
-  let idKey = Taro.getStorageSync('idKey')
-  let constance_data = options.no_const ? {} : {
-    channel: 'wxapp',
-    accOpenid
-  }
+export default async (url, options = { method: 'GET', data: {} }, needToken = true) => {
+  let domain = 'https://wxapp.xiaomafeiteng.com'
 
   let request = (data = {}) => {
-    const {sid, idkey} = data
-    return Taro.request({
-      url: domain + options.url,
+    let query = {
+      url: domain + url,
       data: {
-        sessionId: sid || sessionId,
-        idKey: idkey || idKey,
         version: '1.0.29',
-        ...constance_data,
         ...options.data,
       },
       header: {
         'Content-Type': 'application/json',
       },
-      method: options.method.toUpperCase(),
-    })
+      method: options.method,
+    }
+    if (needToken) {
+      query.header.token = Taro.getStorageSync('token')
+    }
+    return Taro.request(query)
   }
 
   let resp = await request().then(res => res).catch(err => ({error: 1, ...err}));
@@ -55,8 +48,8 @@ export default async (options = { method: 'GET', data: {} }) => {
           // 并发请求正在登陆
           let response = await (() => {
             return new Promise((resolve) => {
-              Taro.eventCenter.on('loginedRequest', ({sid, idkey}) => {
-                request({sid, idkey}).then(re => {
+              Taro.eventCenter.on('loginedRequest', (payload) => {
+                request(payload).then(re => {
                   resolve(re)
                 })
               })
@@ -67,19 +60,16 @@ export default async (options = { method: 'GET', data: {} }) => {
 
           //无并发请求正在登陆，执行登陆请求
           Taro.removeStorageSync('userInfo')
-
+          const userData = Taro.getStorageSync('userData')
           let r = await store.dispatch({
-            type: 'common/requestLogin'
+            type: 'common/login',
+            payload: userData
           })
 
-          let response = await request({sid: r.sessionId, idkey: r.idKey})
+          let response = await request(userData)
           return loopFetch(response)
         }
-      } else if(+data.code === 301) {
-        Taro.redirectTo({
-          url: `/pages/shop-closed/index?phone=${data.data.telephone}`
-        })
-      } else {
+      }else {
         return data
       }
 
