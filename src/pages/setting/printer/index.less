@@ -1,0 +1,101 @@
+.setting-page {
+  padding: 24px 30px;
+  .curPrinter {
+    margin-bottom: 50px;
+  }
+  .printer-title {
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    .printer-icon {
+      width: 10px;
+      height: 36px;
+      border-radius: 0 4px 10px 0;
+      background:rgba(255,143,31,1);
+      margin-right: 16px;
+    }
+    .printer-type {
+      flex: 1;
+      font-size:32px;
+      font-weight:bold;
+      color:rgba(255,143,31,1);
+    }
+    .printer-button {
+      font-size:32px;
+      text-align: center;
+      color: #fff;
+      width: 124px;
+      height: 56px;
+      line-height: 56px;
+      background:linear-gradient(94deg,rgba(254,197,111,1) 0%,rgba(255,143,31,1) 100%);
+      box-shadow:0px 3px 10px rgba(0,0,0,0.16);
+      border-radius:48px;
+    }
+  }
+  .printer-content {
+    background:rgba(255,255,255,1);
+    box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+    border-radius:20px;
+  }
+  .otherPrinter .printer-content {
+    height: 445px;
+    margin-bottom: 30px;
+  }
+  .no-printer {
+    padding: 100px 0 0;
+    text-align: center;
+    .no-printer-desc {
+      color: #999999;
+      font-size: 28px;
+    }
+    .no-printer-img {
+      width: 320rpx;
+      height: 300rpx;
+      margin-bottom: 50rpx;
+    }
+  }
+  .printer-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 105px;
+    padding: 0 30px;
+    font-size: 32px;
+    line-height: 45px;
+    font-weight:bold;
+    &.option-row {
+      margin-top: 15px;
+    }
+    .row-label {
+      flex: 1;
+      color: #404040;
+    }
+    .row-text {
+      color: #999999;
+      &.used {
+        color: #1BC25E;
+      }
+      &.noUsed {
+        color: #FF2A2A;
+      }
+    }
+    .row-button {
+      width:180px;
+      height:68px;
+      line-height: 68px;
+      text-align: center;
+      margin: 0 55px;
+      background:rgba(255,255,255,1);
+      border:1px solid rgba(255,143,31,1);
+      border-radius:48px;
+      color: #FF8F1F;
+      &.used {
+        background:rgba(255,143,31,1);
+        border:1px solid rgba(255,143,31,1);
+        color: #fff;
+      }
+    }
+  }
+}

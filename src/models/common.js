@@ -1,40 +1,50 @@
-import { pwdLogin, codeLogin, getName } from '../services/common';
+import { pwdLogin, codeLogin, resetPassword, sendCode, getStoreData } from '../services/common';
 import Taro from '@tarojs/taro';
 
 export default {
     namespace: 'common',
     state: {
-			name: 'xx'
+			storeData: {
+				storeList: [],
+				nickname: ''
+			}
     },
   
     effects: {
-      * changeName({payload}, {put, call}) {
-				yield put({
-					type: 'setName',
-					payload
-				});
-			},
 			* login({payload}, {put, call}) {
 				let res;
-				Taro.setStorageSync('stopLogin', 1)
-				if( payload.type == 'pwd') {
-					res =  yield call(pwdLogin, payload)
+				if( payload.type == 2) {
+					res = yield call(pwdLogin, payload)
 				}else {
-					res =  yield call(codeLogin, payload)
+					res = yield call(codeLogin, payload)
 				}
-
-				Taro.setStorageSync('userData', payload )
-				Taro.setStorageSync('token', res.token )
-				Taro.eventCenter.trigger('loginedRequest', {payload})
-				Taro.removeStorageSync('stopLogin')
+				if(res) {
+					Taro.setStorageSync('token', res.token )
+				}
 				return res
-      }
+			},
+			* resetPassword({payload}, {put, call}) {
+				return yield call(resetPassword, payload)
+			},
+			* sendCode({payload}, {put, call}) {
+				console.log(payload)
+				return yield call(sendCode, payload)
+			},
+			* getStoreData({payload}, {put, call}) {
+				const response = yield call(getStoreData, payload);
+				Taro.setStorageSync('nickname', response.nickname )
+				yield put({
+					type: 'saveStoreData',
+					payload: response,
+				});
+			}
     },
-  
     reducers: {
-			setName(state, {payload}) {
-				let res = {...state, ...payload}
-				return res
+			saveStoreData(state, action) {
+				return {
+					...state,
+					storeData: action.payload,
+				};
 			},
     }
   }

@@ -1,0 +1,42 @@
+.reset-page {
+	box-sizing: border-box;
+	height: 100vh;
+	background: #fff;
+	padding: 150rpx 120rpx;
+	.at-form {
+		padding: 0;
+		&::after {
+			border: none;
+		}
+	}
+	.at-input {
+		padding: 14rpx 0;
+	}
+	.reset-form {
+		font-size: 28rpx;
+		.form-button {
+			color: #ffffff;
+			height:76rpx;
+			line-height: 76rpx;
+			background:rgba(125,219,147,1);
+			border-radius:6px;
+			border: none;
+			margin-top: 40rpx;
+			font-size: 32rpx;
+		}
+		.form-row {
+			border-bottom:2rpx solid rgba(226,226,226,1);
+			&.code-row {
+				.form-control {
+					border:2rpx solid rgba(125,219,147,1);
+					color: #7DDB93;
+					&.form-defaultText {
+						color:rgba(226,226,226,1);
+						border:2rpx solid rgba(226,226,226,1);
+					}
+				}
+			}
+		}
+	}
+	
+}

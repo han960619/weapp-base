@@ -1,0 +1,203 @@
+
+.store-asset-page {
+	height: 100vh;
+	background-color: rgb(250,250,250);
+  .page-header {
+		box-sizing: border-box;
+		height: 448rpx;
+		padding: 30px 40px; 
+		color: #fff;
+		background:linear-gradient(360deg,rgba(255,179,102,1) 0%,rgba(255,136,31,1) 100%);
+		.header-title {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 50px;
+			margin-bottom: 60px;
+			.popover-view {
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				background-color: white;
+				border-radius: 6rpx;
+				left: 50px;
+				top: 50px;
+			}
+			/* 实现三角形 */
+			.popover-view::before {
+				position: absolute;
+				display: inline-block;
+				width: 0;
+				height: 0px;
+				content: '';
+				border-style: solid;
+				border-width: 30px;
+				border-color: #fff #fff transparent transparent;
+				top: -30px;
+				transform: rotate(-45deg);
+				left: 50px;
+			}
+			.switch-text {
+				font-size:36px;
+				line-height: 50px;
+			}
+			.header-empty {
+				flex: 1;
+			}
+			.switch-icon {
+				margin-left: 5px;
+				transform: translateY(4px);
+				width: 50px;
+				height: 46px;
+			}
+			.data-time {
+				font-size:28px;
+				opacity:0.6;
+			}
+		}
+		.header-income {
+			margin-bottom: 60px;
+			.income-num {
+				line-height: 78px;
+				font-size:56px;
+			}
+		}
+		.item-num, .item-label, .income-num {
+			text-align: center;
+			font-weight: bold;
+		}
+		.item-label {
+			line-height:45px;
+			font-size:24px;
+		}
+		.item-num {
+			line-height:50px;
+			font-size:36px;
+			font-weight: bold;
+		}
+		.header-dataList {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.data-item {
+				flex: 1
+			}
+		}
+	}
+	.page-content {
+		position: relative;
+		.content-switch {
+			margin: 30px 40px 20px;
+			display: flex;
+			height: 78px;
+			line-height: 78px;
+			width: 320px;
+			border-radius: 44px;
+			font-size: 32px;
+			overflow: hidden;
+			font-weight:bold;
+			color:rgba(255,255,255,1);
+			.switch-button {
+				flex: 1;
+				background:rgba(255,143,31,0.3);
+				text-align: center;
+				&.active {
+					background:rgba(255,143,31,1);
+				}
+			}
+		}
+		.content-time {
+			position: absolute;
+			left: 380px;
+			top: 40px;
+			color: #999999;
+			font-weight: bold;
+			font-size: 28px;
+		}
+		.apps-List {
+			position: relative;
+			padding: 0 40px;
+			.apps-title {
+				color: #FF8F1F;
+				text-align: center;
+				font-size:32px;
+				font-weight:bold;
+				line-height:45px;
+			}
+			.app-item {
+				height: 120px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0 40px;
+				font-weight:bold;
+				.item-icon {
+					margin-right: 40px;
+					width: 60px;
+					height: 60px;
+				}
+				.item-text {
+					flex: 1;
+					font-size:28px;
+					color: #666666;
+				}
+				.item-num {
+					color: #000;
+					font-size: 40px;
+				}
+			}
+		}
+		.apps-switch {
+			position: absolute;
+			height: 6px;
+			bottom: 20px;
+			left: 305px;
+			width: 140px;
+			display: flex;
+			.switch-icon {
+				width: 60px;
+				height: 6px;
+				border-radius: 5px;
+				background:rgba(255,143,31,0.3);
+				&.active {
+					background-color: #FF8F1F;
+				}
+				&:first-child {
+					margin-right: 20px;
+				}
+			}
+		}
+	}
+	.at-tabs {
+		background:rgba(255,255,255,1);
+		box-shadow:0px 3px 20px rgba(38,128,235,0.08);
+		border-radius:20px;
+		&__header {
+			display: none;
+		}
+		&__underline {
+			height: 0 !important;
+		}
+		&__body {
+			margin-top: 30px;
+			padding-bottom:40px;
+		}
+	}
+	.noPower {
+		margin-top: 96px;
+		text-align: center;
+		padding-bottom: 120px;
+		.noPower-img {
+			width: 200px;
+			height: 174px;
+			margin-bottom: 40px;
+		}
+		.noPower-text {
+			font-size:28px;
+			font-weight:bold;
+			line-height:40px;
+			color:rgba(204,204,204,1);
+		}
+	}
+}

@@ -1,0 +1,105 @@
+.setting-page {
+  padding: 20rpx 0;
+  .at-form {
+    padding: 0;
+    &::after {
+      border: none;
+    }
+    .border-top-bottom {
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .border-bottom {
+      border-bottom: 1px solid #eee;
+    }
+    .border-top {
+      border-top: 1px solid #eee;
+    }
+    .item-title {
+      margin-top: 16rpx;
+    }
+    .form-row {
+      padding: 0 32rpx;
+      &.must-row {
+        height: 100rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32rpx;
+        .row-title {
+          flex: 1;
+        }
+      }
+    }
+    .form-desc {
+      font-size: 26rpx;
+      padding: 16rpx 32rpx;
+      color: rgb(134,134,134);
+      &.item-warn {
+        opacity: 0.5;
+      }
+    }
+    .at-icon {
+      margin-right: -11rpx;
+      margin-bottom: 0rpx;
+      transform: translateY(-1rpx);
+      opacity: 0.8;
+    }
+    .demo-list-item {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      padding: 24rpx 0;
+    
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: scaleY(0.5);
+        transform-origin: center;
+        box-sizing: border-box;
+        pointer-events: none;
+      }
+    
+      &::before {
+        top: 0;
+        bottom: auto;
+      }
+    
+      &__label,
+      &__value {
+        color: #333;
+        font-size: 32rpx;
+        line-height: 1.5;
+      }
+    
+      &__value {
+        color: #999;
+      }
+    }
+    .at-switch {
+      padding: 16rpx 0; 
+      &__title {
+        font-size: 32rpx;
+      }
+    }
+    .form-footer {
+      padding: 0 32rpx;
+      margin-top: 64rpx;
+      .form-button {
+        color: #ffffff;
+        height:76rpx;
+        line-height: 76rpx;
+        background:linear-gradient(133deg,rgba(72,72,72,1) 0%,rgba(60,60,60,1) 100%);
+        border-radius:6px;
+        border: none;
+        text-align: center;
+        font-size: 32rpx;
+      }
+    }
+  }
+}

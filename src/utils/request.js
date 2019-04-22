@@ -1,102 +1,71 @@
 import Taro from '@tarojs/taro';
 import store from '../store'
-
-<<<<<<< HEAD
-export default async (url, options = { method: 'GET', data: {} }, needToken = true) => {
+import toastPng from '../assets/images/toast-warn.png'
+export default function request(url, options = { method: 'GET', data: {} }, needToken = true) {
   let domain = 'https://wxapp.xiaomafeiteng.com'
 
-  let request = (data = {}) => {
-    let query = {
-=======
-export default async (url, options = { method: 'GET', data: {} }) => {
-  let {domain, accOpenid} = store.getState().common.ext
-  domain = '8080'
-  let sessionId = Taro.getStorageSync('sessionId')
-  let idKey = Taro.getStorageSync('idKey')
-  let constance_data = options.no_const ? {} : {
-    channel: 'wxapp',
-    accOpenid
+  let query = {
+    url: domain + url,
+    data: {
+      version: '1.0.29',
+      ...options.data,
+    },
+    header: {
+      'Content-Type': 'application/json',
+    },
+    method: options.method,
   }
-
-  let request = (data = {}) => {
-    const {sid, idkey} = data
-    return Taro.request({
->>>>>>> 9b5905715d459e8a9c903510cf67f7532a29cda4
-      url: domain + url,
-      data: {
-        version: '1.0.29',
-        ...options.data,
-      },
-      header: {
-        'Content-Type': 'application/json',
-      },
-      method: options.method,
-    }
-    if (needToken) {
-      query.header.token = Taro.getStorageSync('token')
-    }
-    return Taro.request(query)
+  if (needToken) {
+    query.header.Authorization = Taro.getStorageSync('token')
   }
-
-  let resp = await request().then(res => res).catch(err => ({error: 1, ...err}));
-
-  if (resp.error !== 1) {
-    return loopFetch(resp)
-  } else {
-    Taro.redirectTo({
-      url: '/pages/error-page/index'
-    })
-    return {error: 1, timeout: 1}
-  }
-
-  async function loopFetch(res) {
-
+  
+  return Taro.request(query).then((res) => {
     const { statusCode, data } = res;
-
     if (statusCode >= 200 && statusCode < 300) {
       if (+data.code === 200) {
-
-        return data.data;
-
-      } else if(+data.code === 201 && !options.no_const) { //未登录
-        if (Taro.getStorageSync('stopLogin') === 1) {
-
-          // 并发请求正在登陆
-          let response = await (() => {
-            return new Promise((resolve) => {
-              Taro.eventCenter.on('loginedRequest', (payload) => {
-                request(payload).then(re => {
-                  resolve(re)
-                })
-              })
-            })
-          })()
-          return loopFetch(response)
-        } else {
-
-          //无并发请求正在登陆，执行登陆请求
-          Taro.removeStorageSync('userInfo')
-          const userData = Taro.getStorageSync('userData')
-          let r = await store.dispatch({
-            type: 'common/login',
-            payload: userData
-          })
-
-          let response = await request(userData)
-          return loopFetch(response)
-        }
-      }else {
-        return data
+        return data.data
+      } else if(+data.code === 201) { 
+        //未登录 重新登录 跳登录
+        Taro.removeStorageSync('token')
+        Taro.redirectTo({
+          url: '/pages/login/index'
+        })
+      } else if(+data.code === 202) { 
+        Taro.navigateTo({ url: '/pages/noUser/index' })
+      } else if(+data.code === 203) { 
+        //替换页面还是toast提示
+        Taro.showToast({
+          title: '用户无权限',
+          image: toastPng,
+          mask: true,
+          duration: 2000
+        }).then(() =>{
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 2000)
+        })
+        return '203'
+      } else {
+        Taro.showToast({
+          title: data.message,
+          image: toastPng,
+          mask: true,
+          duration: 2000
+        })
+        return
       }
-
     }else {
       Taro.redirectTo({
         url: '/pages/error-page/index'
       })
       console.log(`网络请求错误，状态码${statusCode}`);
-      return {error: 1}
+      return new Error('网络请求出错')
     }
-  }
+  }).catch(() => {
+    Taro.redirectTo({
+      url: '/pages/error-page/index'
+    })
+  })
 
-}
+};
 

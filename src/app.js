@@ -10,7 +10,7 @@ import './app.less'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
-// if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
+// if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {v
 //   require('nerv-devtools')
 // }
 
@@ -20,9 +20,22 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/login/index',
+      'pages/resetPassword/index',
       'pages/order/index',
-      'pages/dashboard/index',
-      'pages/tool/index'
+      'pages/setting/order/index',
+      'pages/setting/printer/index',
+      'pages/setting/addPrinter/index',
+      'pages/setting/repast/index',
+      'pages/setting/takeaway/index',
+      'pages/store/index',
+      'pages/store/goods/index',
+      'pages/store/searchGoods/index',
+      'pages/store/asset/index',
+      'pages/store/setting/index',
+      'pages/store/data/index',
+      'pages/storeList/index',
+      'pages/desk/index',
+      'pages/noUser/index'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -32,30 +45,22 @@ class App extends Component {
     },
     tabBar: {
       borderStyle: 'black',
-      color: 'black',
+      color: '#CCCCCC',
       backgroundColor: '#fff',
-      selectedColor: 'green',
+      selectedColor: '#FF8F1F',
       list: [
-        { pagePath: 'pages/order/index', text: '首页' },
-        { pagePath: 'pages/dashboard/index', text: '概览' },
-        { pagePath: 'pages/tool/index', text: '工具' }
+        { pagePath: 'pages/desk/index', iconPath: 'assets/images/order.png', selectedIconPath: 'assets/images/order1.png', text: '工作台' },
+        { pagePath: 'pages/order/index', iconPath: 'assets/images/desk.png', selectedIconPath: 'assets/images/desk1.png', text: '订单' },
+        { pagePath: 'pages/store/index', iconPath: 'assets/images/store.png', selectedIconPath: 'assets/images/store1.png', text: '门店' }
       ]
     }
   }
 
   componentDidMount () {
-    const userData = Taro.getStorageSync('userData')
-    if(userData) {
-      store.dispatch({
-        type: 'common/login',
-        payload: {
-          ...userData
-        }
-      }).then(res => {
-        Taro.setStorageSync('userData', userData )
-        Taro.reLaunch({
-          url: '/pages/order/index'
-        })
+    const token = Taro.getStorageSync('token')
+    if(token) {
+      Taro.reLaunch({
+        url: 'pages/order/index'
       })
     }else {
       Taro.redirectTo({
