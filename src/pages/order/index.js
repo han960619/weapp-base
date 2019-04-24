@@ -17,7 +17,7 @@ import EmptyPage from '../../components/EmptyContent'
 import Drawer from '../../components/Drawer'
 import Timeline from '../../components/Timeline'
 import { orderTabList, takeStatus, orderStatus } from '../../config/index'
-import { AtTabs, AtTabsPane, AtIcon, AtFloatLayout, AtTimeline } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtIcon, AtFloatLayout } from 'taro-ui'
 
 @connect(({order}) => ({...order}))
 
@@ -31,10 +31,10 @@ export default class Order extends Component {
   state = {
 		orderData: {},
     power: true,
-    current: 5,
+    current: 7,
     orderList: null,
     take_info: [],
-    status: 41,
+    status: 5,
     page: 1,
     can_fetch: true,
 		show: false,
@@ -44,15 +44,15 @@ export default class Order extends Component {
 		old_order: 0,
 		showCause: false,
 		showSelect: false,
-		showTakeDetail: true,
+		showTakeDetail: false,
 		takeLog: []
   }
 
-  componentWillMount () {}
+  // componentWillMount () {}
 
-  componentDidMount () {
-    this.fetchOrderList()
-  }
+  // componentDidMount () {
+  //   this.fetchOrderList()
+  // }
 
   fetchOrderList = () => {
     const { status, page, take_type, order_type, can_fetch, orderList } = this.state
@@ -87,7 +87,15 @@ export default class Order extends Component {
     })
   }
 
-  componentDidShow () {}
+  componentDidShow () {
+		this.setState({
+			can_fetch: true,
+			page: 1,
+			orderList: null
+		}, () => {
+			this.fetchOrderList()
+		})
+	}
 
   linkToSearch = () => {
     Taro.navigateTo({ 
@@ -156,7 +164,7 @@ export default class Order extends Component {
 
 	linkToClose = (order) => {
 		Taro.navigateTo({ 
-      url: `/pages/order/close/index?o_id=${order.o_id}`
+      url: `/pages/order/cancel/index?o_id=${order.o_id}&o_order_status=${order.o_order_status}`
     })
 	}
 
@@ -229,7 +237,6 @@ export default class Order extends Component {
   render () {
     const { power, current, orderList, take_type, take_info, takeLog, order_type, showTakeDetail, show, showCause, orderData, showSelect } = this.state 
 		const selectList = ['全部', '堂食单', '外卖单']
-		console.log(take_info.length > 0 ? take_storePng : no_take_storePng)
     return (
       <View className='order-page'>
         {
@@ -246,7 +253,7 @@ export default class Order extends Component {
                 </View>
               </View>
               <View className='page-content'>
-                <AtTabs scroll={true} current={current} tabList={orderTabList} onClick={this.handleClick.bind(this)}>
+                <AtTabs scroll={true} swipeable={false} current={current} tabList={orderTabList} onClick={this.handleClick.bind(this)}>
                   {
                     orderTabList.map((item, index) => (
                       <AtTabsPane current={current} index={index} key={index}>
@@ -383,7 +390,7 @@ export default class Order extends Component {
 																											<View className='flex1'></View>
 																											<View className='reset-take'>
 																												{
-																													order.take_status == 1
+																													order.take_status == 0
 																													? <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>请选择配送方式</View>
 																													: <View className='reset'>
 																															<Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
@@ -396,10 +403,10 @@ export default class Order extends Component {
 																									: ''
 																								}
 																								{
-																									order.take_id == 1 
+																									order.take_id == 1 && (order.take_status != 5 || order.take_status != 0)
 																									? <View className='button-group'>
 																											<View className='flex1'></View>
-																											<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>更换</View>
+																											<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>商家配送</View>
 																											<View className='reset-default'>商家配送</View>
 																											<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
 																										</View>
@@ -414,7 +421,7 @@ export default class Order extends Component {
                                                 <View className='button-group'>
 																									<View className='flex1'></View>
 																									{
-																										order.take_id ==0
+																										order.take_id == 1
 																										? <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
 																										: <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
 																												<View className='reset-text'>{order.take_remark}</View>
@@ -427,7 +434,8 @@ export default class Order extends Component {
 																					}
                                         </View>
                                       ))
-                                    }
+																		}
+																		<View className='empty'></View>
                                   </ScrollView>
                                 : <View className='no-order'>
                                     <EmptyPage image={noOrderPng} tip='——  暂无相关订单  ——' />

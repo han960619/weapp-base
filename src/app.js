@@ -20,8 +20,10 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/login/index',
-      'pages/resetPassword/index',
       'pages/order/index',
+      'pages/resetPassword/index',
+      'pages/order/cancel/index',
+      'pages/order/detail/index',
       'pages/setting/order/index',
       'pages/setting/printer/index',
       'pages/setting/addPrinter/index',
@@ -60,7 +62,7 @@ class App extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: 'pages/order/index'
+        url: 'pages/order/detail/index'
       })
     }else {
       Taro.redirectTo({

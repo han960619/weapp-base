@@ -1,62 +1,180 @@
-.login-page {
-	box-sizing: border-box;
-	height: 100vh;
-	background: #fff;
-	padding: 50rpx 120rpx;
-	.at-form {
-		padding: 0;
-		&::after {
-			border: none;
-		}
-	}
-	.at-input {
-		padding: 14rpx 0;
-	}
+.order-detail-page{
+	padding: 30px 30px 80px;
 	.page-header {
-		width: 510rpx;
-		text-align: center;
-		display: flex;
-		margin-bottom: 90px;
+		position: relative;
+		height:210px;
+		box-sizing: border-box;
+		background:linear-gradient(90deg,rgba(255,179,102,1) 0%,rgba(255,136,31,1) 100%);
+		box-shadow:0px 3px 10px rgba(0,0,0,0.06);
+		opacity:1;
+		color: #fff;
+		border-radius:20px 20px 0px 0px;
+		padding: 36px 30px;
+		.header-icon {
+			position: absolute;
+			top: 36px;
+			left: 238px;
+			width: 88px;
+			height: 88px;
+		}
 		.header-title {
-			flex: 1;
-			font-weight:400;
-			line-height:56rpx;
-			font-size: 40rpx;
-			color:rgba(157,157,157,1);
-			&.active {
-				font-weight:bold;
-				color:rgba(60,60,60,1);
+			display: flex;
+			height: 78px;
+			justify-content: center;
+			align-items: center;
+			font-weight: bold;
+			font-size:28px;
+			.title-status {
+				font-size:56px;
+			}
+			.title-time{
+				margin-right: 10px;
+			}
+		}
+		.header-warn {
+			margin-top: 20px;
+			font-weight: bold;
+			font-size:32px;
+			line-height: 45px;
+		}
+	}
+	.page-content {
+		padding: 40px 30px;
+		background:rgba(255,255,255,1);
+		box-shadow:0px 3px 10px rgba(0,0,0,0.06);
+		opacity:1;
+		border-radius:0px 0px 20px 20px;
+		.food-list {
+			border-bottom: 1px solid rgba(230,230,230,1);
+			.food-item {
+				position: relative;
+				display: flex;
+				height: 116px;
+				margin-bottom: 50px;
+				.food-icon {
+					height: 116px;
+					width: 116px;
+					margin-right: 30px;
+				}
+				.food-desc {
+					flex: 1;
+					font-weight: bold;
+					.item-header {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						.item-name {
+							font-size: 28px;
+							color: #404040;
+							margin-right: 20px;
+						}
+						.item-label {
+							width: 80px;
+							height: 36px;
+							line-height: 38px;
+							text-align: center;
+							border:2px solid rgba(255,203,31,1);
+							border-radius:10px;
+							color: #FFCB1F;
+						}
+						.item-num {
+							text-align: right;
+							font-size: 28px;
+							color: #999;
+						}
+					}
+				}
+				.item-money {
+					position: absolute;
+					font-size:28px;
+					font-weight:bold;
+					line-height:40px;
+					right: 0;
+					bottom: 0;
+					color: #404040;
+				}
+			}
+		}
+		.order-money {
+			padding: 40px 0 0;
+			.money-rows {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: #999;
+				font-size: 28px;
+				font-weight: bold;
+				margin-bottom: 30px;
+				&:last-child {
+					margin-bottom: 0;
+				}
+				.rows-label {
+					flex: 1;
+				}
+				.red-text {
+					color: #FF0000;
+				}
+				.color-text {
+					font-size: 32px;
+					margin-right: 30px;
+				}
+				.default-text {
+					color: #404040;
+				}
+				.noUsed {
+					color: #CCCCCC;
+					text-decoration:line-through; 
+				}
 			}
 		}
 	}
-	.login-form {
-		font-size: 28rpx;
-		.form-button {
-			color: #ffffff;
-			height:76rpx;
-			line-height: 76rpx;
-			background:linear-gradient(133deg,rgba(72,72,72,1) 0%,rgba(60,60,60,1) 100%);
-			border-radius:6px;
-			border: none;
-			margin-top: 40rpx;
-			font-size: 32rpx;
-		}
-		.form-control {
-			border:2rpx solid rgba(60,60,60,1);
-			color: #333;
-			&.form-defaultText {
-				color:rgba(226,226,226,1);
-				border:2rpx solid rgba(226,226,226,1);
+	.page-footer {
+		background:rgba(255,255,255,1);
+		box-shadow:0px 3px 10px rgba(0,0,0,0.06);
+		border-radius:20px;
+		padding: 30px;
+		margin-top: 40px;
+		.footer-item {
+			&.underline {
+				border-bottom:1px solid rgba(230,230,230,1);
+				margin-bottom: 30px;
+				padding-bottom: 30px;
+			}
+			.footer-row {
+				position: relative;
+				display: flex;
+				color: #999;
+				font-size: 28px;
+				font-weight: bold;
+				margin-bottom: 30px;
+				&:last-child {
+					margin-bottom: 0;
+				}
+				.row-label {
+					flex: 1;
+					line-height: 40px;
+				}
+				.row-icon {
+					width: 38px;
+					height: 38px;
+					margin-right: 20px;
+					&.mr10 {
+						margin-right: 5px;
+					}
+				}
+				.row-text {
+					line-height: 40px;
+					text-align: right;
+					max-width: 400px;
+					word-break:break-all;
+					&.color-text {
+						color: #FF8F1F;
+					}
+				}
 			}
 		}
-		.form-row {
-			border-bottom:2rpx solid rgba(226,226,226,1);
-		}
 	}
-	.link-to {
-		margin-top: 20rpx;
-		padding: 10rpx 0;
-		color: #6694EF;
-		font-size: 24rpx;
+	.flex1 {
+		flex: 1;
 	}
 }

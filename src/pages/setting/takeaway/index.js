@@ -66,7 +66,6 @@ export default class TakeawaySetting extends Component {
 
   render () {
     const { loading, status, send_type, third_party_use, third_party } = this.state
-    console.log(dispatchList)
     const list = third_party_use == 0 ? dispatchList.slice(0 ,1) : dispatchList
     return (
       loading ? 

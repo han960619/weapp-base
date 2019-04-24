@@ -1,0 +1,156 @@
+.order-cancel {
+	min-height: 100vh;
+	position: relative;
+  padding: 40px 0 100px;
+  box-sizing: border-box;
+  background-color: #FAFAFA;
+}
+
+.panes {
+  width: 670px;
+  padding: 40px;
+  margin: 0 auto 40px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.inp {
+  color: #CCC;
+  font-weight: bold;
+}
+
+.title {
+  width: 670px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #404040;
+  line-height: 45px;
+  margin: 0 auto 40px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 10px;
+    height: 38px;
+    position: absolute;
+    left: 0;
+    top: 4px;
+    background-color: #FF8F1F;
+    border-radius: 0 4px 10px 0;
+  }
+}
+
+.refund {
+
+  &-wrap {
+    margin-top: 60px;
+    zoom: 1;
+
+    &::after {
+      content: '.';
+      height: 0;
+      display: block;
+      overflow: hidden;
+      clear: both;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .tips {
+      font-size: 32px;
+      color: #666;
+      float: left;
+      font-weight: bold;
+    }
+
+    .txt {
+      width: 224px;
+      font-size: 32px;
+      color: #404040;
+      float: right;
+      text-align: right;
+      font-weight: bold;
+
+      &.price {
+        color: #FF0000;
+      }
+    }
+  }
+}
+
+.cancel {
+  &-content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .cancel-wrap {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+      padding: 20px 0;
+      margin-top: 20px;
+      zoom: 1;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      .tips {
+        font-size: 32px;
+				color: #666;
+				line-height: 45px;
+        float: left;
+        font-weight: bold;
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+				flex: 1;
+        &.active {
+          color: #FF8F1F;
+        }
+      }
+
+      .icon {
+				width: 45px;
+				height: 45px;
+      }
+    }
+  }
+}
+
+.note {
+  &-content {
+    padding-top: 37px;
+    padding-bottom: 36px;
+
+    .text {
+      font-size: 32px;
+      line-height: 45px;
+    }
+
+    .inp {
+      color: #CCCCCC;
+    }
+  }
+}
+
+.footer {
+	position: absolute;
+	bottom: 100px;
+  width: 590px;
+  height: 96px;
+  font-style: 36px;
+	font-weight: bold;
+	padding: 0 80px;
+	.btn {
+		color: #fff;
+		border: none;
+		background: linear-gradient(90deg, rgba(255, 179, 102, 1) 0%, rgba(255, 136, 31, 1) 100%);
+		box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
+		border-radius: 48px;
+	}
+}

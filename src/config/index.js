@@ -1,4 +1,18 @@
-  // 打印机数量枚举
+  
+ import order_status1Png from '../assets/images/order_status1.png'
+ import order_status2Png from '../assets/images/order_status2.png'
+ import order_status3Png from '../assets/images/order_status3.png'
+ import order_status31Png from '../assets/images/order_status31.png'
+ import order_status32Png from '../assets/images/order_status32.png'
+ import order_status4Png from '../assets/images/order_status4.png'
+ import order_status41Png from '../assets/images/order_status41.png'
+ import order_status42Png from '../assets/images/order_status42.png'
+ import order_status5Png from '../assets/images/order_status5.png'
+ import order_status6Png from '../assets/images/order_status6.png'
+ import order_status7Png from '../assets/images/order_status7.png'
+ import order_status8Png from '../assets/images/order_status8.png'
+ 
+ // 打印机数量枚举
   export const orderTabList = [
 	{ 
 		title: '待处理',
@@ -47,10 +61,25 @@ export const orderStatus = {
 	4: '待取餐',
 	41: '待配送',
 	42: '配送中',
-	5: '已取餐',
+	5: '已完成',
 	6: '已退款',
 	7: '已关闭 ',
 	8: '已完成',
+}
+
+export const orderStatusImg = {
+	1: order_status1Png,
+	2: order_status2Png,
+	3: order_status3Png,
+	31: order_status31Png,
+	32: order_status32Png,
+	4: order_status4Png,
+	41: order_status41Png,
+	42: order_status42Png,
+	5: order_status5Png,
+	6: order_status6Png,
+	7: order_status7Png,
+	8: order_status8Png,
 }
 
 export const takeStatus = ['待配送', '呼叫骑手', '骑手待取货', '配送中', '完成', '已取消']
