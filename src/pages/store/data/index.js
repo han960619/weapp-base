@@ -9,8 +9,6 @@ import dashboard_add_user from '../../../assets/images/add_user.png'
 import dashboard_refund_num from '../../../assets/images/refund_num.png'
 import dashboard_refund from '../../../assets/images/refund.png'
 import morePng from '../../../assets/images/more.png'
-import upPng from '../../../assets/images/up.png'
-import downPng from '../../../assets/images/down.png'
 import goods_refund_num from '../../../assets/images/goods_refund_num.png'
 import goods_num from '../../../assets/images/goods_num.png'
 import noPowerPng from '../../../assets/images/noPower.png'
@@ -256,6 +254,10 @@ export default class StoreData extends Component {
                                   <View className='item-num'>{app.value}</View>
                                 </View>
                               ))
+                            }
+                            {
+                              pageData.appList.length == 3 &&
+                              <View className='app-warn'>——  没有更多啦  ——</View>
                             }
                           </ScrollView>
                         : <View className='apps-List noPower'>

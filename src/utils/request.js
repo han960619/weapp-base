@@ -44,7 +44,6 @@ export default function request(url, options = { method: 'GET', data: {} }, need
         }else if(noPower == 3){
           Taro.showToast({
             title: '用户无权限',
-            image: toastPng,
             mask: true,
             duration: 2000
           }).then(() =>{

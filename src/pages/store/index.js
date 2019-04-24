@@ -14,13 +14,15 @@ import noUsedPng from '../../assets/images/noUsed.png'
 import switchPng from '../../assets/images/switch.png'
 import closeWarnPng from '../../assets/images/close-warn.png'
 import noPowerPng from '../../assets/images/noPower.png'
+import storeBg1Png from '../../assets/images/storeBg1.png'
+import storeBg2Png from '../../assets/images/storeBg2.png'
 
 @connect(({desk, store}) => ({...desk, ...store}))
 export default class Store extends Component {
 
   config = {
     navigationBarTitleText: '门店',
-    navigationBarBackgroundColor: '#4B8CFC',
+    navigationBarBackgroundColor: '#578AFC',
     disableScroll: true,
     navigationBarTextStyle: 'white'
   }
@@ -30,11 +32,13 @@ export default class Store extends Component {
     s_business: 1,
     is_connect_printer: 1, 
     send_type: 1, 
+    over_time: 100,
     pay_amount: 0, 
     total_number: 0, 
     user_new_number: 0, 
     refund_amount: 0,
     power: true,
+    transWarn: false,
     showWarn: false
   }
 
@@ -97,8 +101,8 @@ export default class Store extends Component {
   }
 
   render () {
-    const { s_automatic, power, showWarn, is_connect_printer, send_type, pay_amount, 
-      total_number, user_new_number, refund_amount, s_business } = this.state
+    const { s_automatic, power, showWarn, over_time, is_connect_printer, send_type, pay_amount, 
+      total_number, user_new_number, refund_amount, transWarn, s_business } = this.state
     const store = Taro.getStorageSync('storeData')
     const settingList = [
       {
@@ -139,11 +143,22 @@ export default class Store extends Component {
         img: settingPng
       }
     ]
-    const tabList = [{ title: '标签页1' }, { title: '标签页2' }, { title: '标签页3' }]
     return (
       power ? 
       <View className='store-page'>
+        {
+          over_time <= 15 &&
+          <View className={`header-warn ${transWarn ? 'transY' : ''}`}>
+            {
+              over_time > 0 
+              ? <View className='no-over flex1'>您的店铺有效期不足{over_time}天，请尽快续费。</View>
+              : <View className='over flex1'>店铺已打烊，请联系客服恢复使用。</View>
+            }
+            <View className='warn-button' onClick={() => {this.setState({ transWarn: true })}}>知道了</View>
+          </View>
+        }
         <View className='page-header'>
+          <Image className='header-image' src={s_business == 1 ? storeBg2Png : storeBg1Png} />
           <View className='header-title'>
             <Image className='title-logo' src={store.b_logo} />
             <View className='title-name'>{store.s_title}</View>
