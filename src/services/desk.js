@@ -6,7 +6,7 @@ export async function fetchOrder(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 
 export async function fetchTakeaway(params) {
@@ -14,8 +14,8 @@ export async function fetchTakeaway(params) {
 		method: 'POST',
 		data: {
 			...params,
-		},
-	});
+		},	
+	},true,3);
 }
 
 export async function fetchRepast(params) {
@@ -24,7 +24,7 @@ export async function fetchRepast(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 export async function getPrinterList(params) {
 	return request('/addons.diancan.merchant.Setting_printer', {
@@ -32,7 +32,7 @@ export async function getPrinterList(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 
 export async function savePrinter(params) {
@@ -41,7 +41,7 @@ export async function savePrinter(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 
 export async function delPrinter(params) {
@@ -50,7 +50,7 @@ export async function delPrinter(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 
 export async function changePrinter(params) {
@@ -59,6 +59,6 @@ export async function changePrinter(params) {
 		data: {
 			...params,
 		},
-	});
+	},true,3);
 }
 

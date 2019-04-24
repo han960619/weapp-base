@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import store from '../store'
 import toastPng from '../assets/images/toast-warn.png'
-export default function request(url, options = { method: 'GET', data: {} }, needToken = true) {
+export default function request(url, options = { method: 'GET', data: {} }, needToken = true, noPower = 2) {
   let domain = 'https://wxapp.xiaomafeiteng.com'
 
   let query = {
@@ -34,16 +34,27 @@ export default function request(url, options = { method: 'GET', data: {} }, need
         Taro.navigateTo({ url: '/pages/noUser/index' })
       } else if(+data.code === 203) { 
         //替换页面还是toast提示
-        Taro.showToast({
-          title: '用户无权限',
-          image: toastPng,
-          mask: true,
-          duration: 2000
-        }).then(() =>{
-          setTimeout(() => {
-            Taro.navigateBack()
-          }, 2000)
-        })
+        if(noPower == 2) {
+          Taro.showToast({
+            title: '用户无权限',
+            image: toastPng,
+            mask: true,
+            duration: 2000
+          })
+        }else if(noPower == 3){
+          Taro.showToast({
+            title: '用户无权限',
+            image: toastPng,
+            mask: true,
+            duration: 2000
+          }).then(() =>{
+            if(needBack) {
+              setTimeout(() => {
+                Taro.navigateBack()
+              }, 2000)
+            }
+          })
+        }
         return '203'
       } else {
         Taro.showToast({

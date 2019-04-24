@@ -24,7 +24,7 @@ export async function fetchOrderDetail(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 3);
 }
 
 export async function fetchDadaCancel(params) {
@@ -98,6 +98,15 @@ export async function reachTake(params) {
 
 export async function makeStart(params) {
 	return request('/addons.diancan.merchant.Order_makeStart', {
+		method: 'POST',
+		data: {
+			...params,
+		},
+	});
+}
+
+export async function refundOrder(params) {
+	return request('/addons.diancan.merchant.Order_refundOrder', {
 		method: 'POST',
 		data: {
 			...params,

@@ -31,10 +31,10 @@ export default class Order extends Component {
   state = {
 		orderData: {},
     power: true,
-    current: 7,
+    current: 0,
     orderList: null,
     take_info: [],
-    status: 5,
+    status: 1,
     page: 1,
     can_fetch: true,
 		show: false,
@@ -66,14 +66,14 @@ export default class Order extends Component {
         page,
         take_type,
         order_type,
-        search: ''
       }
     }).then((res) => {
-      if(res == '203') {
+      if(res == '203' || !res) {
         this.setState({
           power: false 
         })
-      }else {
+      }else{
+				console.log(res)
         const _status = {
           take_info: res.take_info != undefined ? res.take_info : [],
           can_fetch: page <= (res.total / 10),
@@ -374,7 +374,6 @@ export default class Order extends Component {
                                             order.o_order_status == 4
                                             ? <View className='item-option item-status4'>
                                                 <View className='button-group'>
-																									<View className='flex1'></View>
                                                 	<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
 																									<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'takeOrder') }}>确认取餐</View>
                                                 </View>

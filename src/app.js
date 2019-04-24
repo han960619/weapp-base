@@ -24,6 +24,8 @@ class App extends Component {
       'pages/resetPassword/index',
       'pages/order/cancel/index',
       'pages/order/detail/index',
+      'pages/order/refund/index',
+      'pages/order/search/index',
       'pages/setting/order/index',
       'pages/setting/printer/index',
       'pages/setting/addPrinter/index',
@@ -51,8 +53,8 @@ class App extends Component {
       backgroundColor: '#fff',
       selectedColor: '#FF8F1F',
       list: [
-        { pagePath: 'pages/desk/index', iconPath: 'assets/images/order.png', selectedIconPath: 'assets/images/order1.png', text: '工作台' },
         { pagePath: 'pages/order/index', iconPath: 'assets/images/desk.png', selectedIconPath: 'assets/images/desk1.png', text: '订单' },
+        { pagePath: 'pages/desk/index', iconPath: 'assets/images/order.png', selectedIconPath: 'assets/images/order1.png', text: '工作台' },
         { pagePath: 'pages/store/index', iconPath: 'assets/images/store.png', selectedIconPath: 'assets/images/store1.png', text: '门店' }
       ]
     }
@@ -62,7 +64,7 @@ class App extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: 'pages/order/detail/index'
+        url: 'pages/store/index'
       })
     }else {
       Taro.redirectTo({

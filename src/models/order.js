@@ -1,5 +1,5 @@
 import { reachTake, cancelOrderTake, deliverTake, takeOrder, makeComplete, fetchOrderList,
-	fetchTakeLog, fetchOrderDetail, makeStart, fetchDadaCancel, cancelOrder, acceptOrder } from '../services/order';
+	fetchTakeLog, fetchOrderDetail, makeStart, fetchDadaCancel, refundOrder, cancelOrder, acceptOrder } from '../services/order';
 
 export default {
 	namespace: 'order',
@@ -42,6 +42,9 @@ export default {
 		},
 		* makeStart({payload}, {put, call}) {
 			return yield call(makeStart, payload);
+		},
+		* refundOrder({payload}, {put, call}) {
+			return yield call(refundOrder, payload);
 		}
 	},
 	reducers: {

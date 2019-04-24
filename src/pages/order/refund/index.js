@@ -19,6 +19,7 @@ export default class OrderCancel extends Component {
     note: '',
     o_id: '',
     o_pay_amount: '',
+    amount: ''
   }
 
   componentWillMount() {
@@ -35,33 +36,43 @@ export default class OrderCancel extends Component {
   }
 
   submitForm = () => {
-    const { note, o_id, o_pay_amount } = this.state
+    const { note, amount, o_id, o_pay_amount } = this.state
     const store_id = Taro.getStorageSync('storeId')
-    this.props.dispatch({
-      type: `order/cancelOrder`,
-      payload: {
-        store_id,
-        o_id,
-        pay_status: o_order_status == 1 ? 1 : 2,
-      }
-    }).then((res)=> {
-			if(res != 203) {
-				Taro.showToast({
-					title: '退款成功',
-					icon: 'success',
-          mask: true,
-          duration: 2000
-				}).then(() => {
-          setTimeout(() => {
-            Taro.navigateBack()
-          }, 2000)
-        })
-			}
-		})
+    if( +amount > +o_pay_amount) {
+      Taro.showToast({
+        title: '退款金额不能大于支付金额',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+    }else {
+      this.props.dispatch({
+        type: `order/refundOrder`,
+        payload: {
+          store_id,
+          o_id,
+          amount,
+          remark: note
+        }
+      }).then((res)=> {
+        if(res != 203) {
+          Taro.showToast({
+            title: '退款成功',
+            icon: 'success',
+            mask: true,
+            duration: 2000
+          }).then(() => {
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 2000)
+          })
+        }
+      })
+    }
   }
 
   render() {
-    const { o_pay_amount, note } = this.state
+    const { note, amount } = this.state
     return (
       <View className='order-cancel'>
         <View className='refund panes'>
@@ -71,21 +82,19 @@ export default class OrderCancel extends Component {
           </View>
           <View className='refund-wrap'>
             <View className='tips'>退款金额</View>
-            <Input value={o_pay_amount} onChange={(e) => { this.bindKeyInput(e, 'o_pay_amount') }} className='txt' placeholder='请输入退款金额' placeholderClass='inp' />
+            <Input value={amount} onChange={(e) => { this.bindKeyInput(e, 'amount') }} className='txt' placeholder='请输入退款金额' placeholderClass='inp' />
           </View>
           <View className='refund-wrap'>
             <View className='tips'>退款方式</View>
             <View className='txt'>原路退回</View>
           </View>
         </View>
-        {
-          showNote && <View className='note'>
-            <View className='note-title title'>备注</View>
-            <View className='note-content panes'>
-              <Input value={note} onChange={(e) => { this.bindKeyInput(e, 'note') }} className='text' maxLength={15} placeholder='在此填入原因，选填（仅限15字）' placeholderClass='inp' />
-            </View>
+        <View className='note'>
+          <View className='note-title title'>备注</View>
+          <View className='note-content panes'>
+            <Input value={note} onChange={(e) => { this.bindKeyInput(e, 'note') }} className='text' maxLength={15} placeholder='在此填入原因，选填（仅限15字）' placeholderClass='inp' />
           </View>
-        }
+        </View>
         <View className='footer'>
           <AtButton className='btn' onClick={() => { this.submitForm() }}>确定</AtButton>
         </View>

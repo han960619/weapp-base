@@ -6,7 +6,7 @@ export async function fetchGoods(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 3);
 }
 
 export async function changeStatus(params) {
@@ -35,7 +35,7 @@ export async function getStoreData(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 1);
 }
 
 // 商品数据
@@ -45,7 +45,7 @@ export async function getStoreGoods(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 1);
 }
 
 // 资产统计
@@ -55,7 +55,7 @@ export async function getStoreStatistics(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 1);
 }
 
 // 资产对账
@@ -65,7 +65,7 @@ export async function getStoreAssetBill(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 1);
 }
 
 // 营销对账
@@ -75,7 +75,7 @@ export async function getStoreMarketingBill(params) {
 		data: {
 			...params,
 		},
-	});
+	}, true , 1);
 }
 
 // 切换门店状态

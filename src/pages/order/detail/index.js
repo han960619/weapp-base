@@ -54,7 +54,7 @@ export default class orderDetail extends Component {
       type: 'order/fetchOrderDetail',
       payload: {
         store_id,
-        o_id: 1296
+        o_id
       }
     }).then((res) => {
       if(res != '203' && res) {
@@ -85,6 +85,13 @@ export default class orderDetail extends Component {
 
   linkToClose = () => {
     const { order } = this.state
+    Taro.navigateTo({ 
+      url: `/pages/order/cancel/index?o_id=${order.o_id}&o_order_status=${order.o_order_status}`
+    })
+  }
+
+  linkToRefund = () => {
+    const { order } = this.state
     if(order.o_order_status == 42 && order.take_id == 2) {
       Taro.showToast({
         title: '请先取消正在进行的第三方配送',
@@ -93,16 +100,9 @@ export default class orderDetail extends Component {
       })
     }else {
       Taro.navigateTo({ 
-        url: `/pages/order/cancel/index?o_id=${order.o_id}&o_order_status=${order.o_order_status}`
+        url: `/pages/order/refund/index?o_id=${order.o_id}&&o_order_status=${order.o_order_status}&o_pay_amount=${order.o_pay_amount}`
       })
     }
-  }
-
-  linkToRefund = () => {
-    const { order } = this.state
-		Taro.navigateTo({ 
-      url: `/pages/order/refund/index?o_id=${order.o_id}&o_order_status=${order.o_order_status}&o_pay_amount=${order.o_pay_amount}`
-    })
   }
   
   fetchOption = (type, data) => {
@@ -327,7 +327,7 @@ export default class orderDetail extends Component {
           {
             (order.o_order_status == 3 || order.o_order_status == 32) &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               <View className='item-button ok-button'  onClick={() => { this.fetchOption('makeComplete') }}>制作完成</View>
             </View>
@@ -335,7 +335,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 31 &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               <View className='item-button ok-button'  onClick={() => { this.fetchOption('makeComplete') }}>开始制作</View>
             </View>
@@ -343,7 +343,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 4 &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               <View className='item-button ok-button'  onClick={() => { this.fetchOption('takeOrder') }}>确认取餐</View>
             </View>
@@ -351,7 +351,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 41 && 
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               {
                 (order.take_status	== 0 || order.take_status	== 5)
@@ -363,7 +363,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 42 && order.take_id == 1 &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               <View className='item-button ok-button' onClick={() => { this.fetchOption('reachTake') }}>确认送达</View>
             </View>
@@ -371,7 +371,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 42 && order.take_id == 2 &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               <Picker mode='selector' range={cancelList} value={current} onChange={(e) => { this.selectCancel(e.detail.value)}}>
                 <View className='item-button ok-button'>取消配送</View>
@@ -381,7 +381,7 @@ export default class orderDetail extends Component {
           {
             order.o_order_status == 5 &&
             <View className='options-box'>
-              <View className='item-button close-button' onClick={() => { this.linkToClose() }}>退款</View>
+              <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
             </View>
           }
         </View>
