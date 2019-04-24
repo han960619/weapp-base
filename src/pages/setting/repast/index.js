@@ -84,17 +84,17 @@ export default class RepastSetting extends Component {
           onReset={this.onReset.bind(this)}
         >
           <View className="form-row">
-            <AtSwitch color='#1AAD16' title='食堂就餐' disabled={s_take_bale != 1} border={false} checked={s_take_dinner == 1} onChange={(value) => {this.setValue('s_take_dinner', value ? 1 : 2)}} />
+            <AtSwitch color='#FF8F1F' title='食堂就餐' disabled={s_take_bale != 1} border={false} checked={s_take_dinner == 1} onChange={(value) => {this.setValue('s_take_dinner', value ? 1 : 2)}} />
           </View>
           <View className="form-row">
-            <AtSwitch color='#1AAD16' title='外卖配送' disabled={s_take_dinner != 1} border={false} checked={s_take_bale == 1} onChange={(value) => {this.setValue('s_take_bale', value ? 1 : 2)}} />
+            <AtSwitch color='#FF8F1F' title='外卖配送' disabled={s_take_dinner != 1} border={false} checked={s_take_bale == 1} onChange={(value) => {this.setValue('s_take_bale', value ? 1 : 2)}} />
           </View>
           <View className="form-desc form-warn">可同时开启两个就餐方式，最少保留一个就餐方式！</View>
           <View className="form-row border-bottom">
             <AtInput
               title='打包费'
               name='s_take_money'
-              type='text'
+              type='digit'
               border={false}
               placeholder={s_take_money ? '' : '请输入金额'}
               value={s_take_money}

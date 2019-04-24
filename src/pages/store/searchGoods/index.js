@@ -20,8 +20,7 @@ export default class SearchGoods extends Component {
     keyword: ''
   }
 
-  componentDidMount () {
-    
+  componentDidMount () { 
   }
 
   handleChange = (value) => {

@@ -1,7 +1,7 @@
 import Taro, { Component, getApp } from '@tarojs/taro'
 import { View, Picker } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtForm, AtSwitch, AtButton } from 'taro-ui'
+import { AtForm, AtSwitch, AtIcon } from 'taro-ui'
 import EmptyPage from '../../../components/EmptyContent'
 import { otherDispatchList, dispatchList } from '../../../config/index'
 import './index.less'
@@ -75,10 +75,10 @@ export default class TakeawaySetting extends Component {
           onReset={this.onReset.bind(this)}
         >
           <View className="form-row border-top-bottom">
-            <AtSwitch color='#1AAD16' title='外卖配送' border={false} checked={status == 1} onChange={(value) => {this.setValue('status', value ? 1 : 2)}} />
+            <AtSwitch color='#FF8F1F' title='外卖配送' border={false} checked={status == 1} onChange={(value) => {this.setValue('status', value ? 1 : 2)}} />
           </View>
           {
-            status == 1 ? 
+            status == 1 &&
             <View>
               <View className="form-desc item-title">默认方式</View>
               <View className="form-row must-row border-top-bottom">
@@ -107,10 +107,10 @@ export default class TakeawaySetting extends Component {
               </View>
               <View className="form-desc item-title">默认配送</View>
               <View className="form-row border-top-bottom">
-                <AtSwitch color='#1AAD16' title='默认配送' border={false} checked={send_type != 0} onChange={(value) => {this.setValue('send_type', value ? 1 : 0)}} />
+                <AtSwitch color='#FF8F1F' title='默认配送' border={false} checked={send_type != 0} onChange={(value) => {this.setValue('send_type', value ? 1 : 0)}} />
               </View>
               {
-                send_type != 0 ? 
+                send_type != 0 &&
                 <View className="form-row border-bottom">
                   <Picker mode='selector' range={list} rangeKey='label' onChange={(e) => {this.setValue('send_type', +e.detail.value + 1)}}>
                     <View className='demo-list-item'>
@@ -119,11 +119,9 @@ export default class TakeawaySetting extends Component {
                     </View>
                   </Picker>
                 </View>
-                : ''
               }
-              <View className="form-desc item-warn">未配置达达，服务将无法生效，请前往PC端配置</View>
+              <View className="item-warn">设置默认配送，则再操作订单时无需再次选择</View>
             </View>
-            : ''
           }
         </AtForm>
       </View>

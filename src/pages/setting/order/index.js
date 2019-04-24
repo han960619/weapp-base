@@ -92,7 +92,7 @@ export default class OrderSetting extends Component {
         >
           <View className='form-item'>
             <View className='item-title'>自动设置</View>
-            <AtSwitch title='自动接单' color='#1AAD16' border={false} checked={s_automatic == 1} onChange={(value) => {this.setValue('s_automatic', value ? 1 : 2)}} />
+            <AtSwitch title='自动接单' color='#FF8F1F' border={false} checked={s_automatic == 1} onChange={(value) => {this.setValue('s_automatic', value ? 1 : 2)}} />
             <Picker mode='selector' range={autoList} rangeKey='label' onChange={(e) => {this.setValue('s_nopay_close', autoList[+e.detail.value].value)}}>
               <View className='demo-list-item'>
                 <View className='demo-list-item__label'>自动关闭</View>
@@ -102,7 +102,7 @@ export default class OrderSetting extends Component {
           </View>
           <View className='form-item'>
             <View className='item-title'>制作设置</View>
-            <AtSwitch title='自动完成' color='#1AAD16' border={false} checked={s_production == 1} onChange={(value) => {this.setValue('s_production', value ? 1 : 2)}} />
+            <AtSwitch title='自动完成' color='#FF8F1F' border={false} checked={s_production == 1} onChange={(value) => {this.setValue('s_production', value ? 1 : 2)}} />
             <Picker mode='selector' range={workList} rangeKey='label' onChange={(e) => {this.setValue('s_production_time', workList[+e.detail.value].value)}}>
               <View className='demo-list-item'>
                 <View className='demo-list-item__label'>制作时间</View>
@@ -115,7 +115,7 @@ export default class OrderSetting extends Component {
             <Picker mode='selector' range={timeList} value={s_reserve} rangeKey='label' onChange={(e) => {this.setValue('s_reserve', timeList[+e.detail.value].value)}}>
               <View className='demo-list-item'>
                 <View className='demo-list-item__label'>预约点餐</View>
-                <View className='demo-list-item__value'>{s_reserve == '-1' ? '暂不开启' : timeList[s_reserve].label}</View>
+                <View className='demo-list-item__value'>{s_reserve == '-1' ? '暂不开启' : timeList[s_reserve].label}<AtIcon value='chevron-right' size='20' color='#999'></AtIcon></View>
               </View>
             </Picker>
             {
