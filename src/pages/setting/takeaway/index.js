@@ -90,6 +90,9 @@ export default class TakeawaySetting extends Component {
                   onChange={(e) => {
                     if(e.detail.value == 0) {
                       this.setValue('third_party_use', 0)
+                      if(send_type != 0) {
+                        this.setValue('send_type', 1)
+                      }
                     }else {
                       this.setValue('third_party_use', 1)
                       this.setValue('third_party', 'dada')

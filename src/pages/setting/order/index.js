@@ -112,10 +112,10 @@ export default class OrderSetting extends Component {
           </View>
           <View className='form-item'>
             <View className='item-title'>预约设置</View>
-            <Picker mode='selector' range={timeList} rangeKey='label' onChange={(e) => {this.setValue('s_reserve', timeList[+e.detail.value].value)}}>
+            <Picker mode='selector' range={timeList} value={s_reserve} rangeKey='label' onChange={(e) => {this.setValue('s_reserve', timeList[+e.detail.value].value)}}>
               <View className='demo-list-item'>
                 <View className='demo-list-item__label'>预约点餐</View>
-                <View className='demo-list-item__value'>{s_reserve == '-1' ? '暂不开启' : (s_reserve == '1' ? '仅需当天' : '提前两天')}</View>
+                <View className='demo-list-item__value'>{s_reserve == '-1' ? '暂不开启' : timeList[s_reserve].label}</View>
               </View>
             </Picker>
             {

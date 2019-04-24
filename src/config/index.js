@@ -152,6 +152,26 @@ export const timeList = [
 	{
 		label: '提前两天',
 		value: 2
+	},
+	{
+		label: '提前三天',
+		value: 3
+	},
+	{
+		label: '提前四天',
+		value: 4
+	},
+	{
+		label: '提前五天',
+		value: 5
+	},
+	{
+		label: '提前六天',
+		value: 6
+	},
+	{
+		label: '提前七天',
+		value: 7
 	}
 ]
 

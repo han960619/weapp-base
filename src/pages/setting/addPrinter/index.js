@@ -67,8 +67,11 @@ export default class AddPrinter extends Component {
             title: '保存成功',
             icon: 'success',
             mask: true,
+            duration: 1500
           }).then(() => {
-            Taro.navigateBack()
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1500)
           })
         }
       })
@@ -94,8 +97,11 @@ export default class AddPrinter extends Component {
           title: '删除成功',
           icon: 'success',
           mask: true,
+          duration: 1500
         }).then(() => {
-          Taro.navigateBack()
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 1500)
         })
       }
     })
