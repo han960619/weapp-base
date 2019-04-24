@@ -396,11 +396,14 @@ export default class orderDetail extends Component {
               <Image className='row-icon' src={phonePng} onClick={() => {this.callPhone()}} />
               <View className='row-text color-text' onClick={() => {this.callPhone()}}>{order.o_contact_mobile}</View>
             </View>
-            <View className='footer-row'>
-              <View className='row-label'>收货地址:</View>
-              <Image className='row-icon mr10' src={addressPng} onClick={() => {this.lookAddress()}} />
-              <View className='row-text color-text' onClick={() => {this.lookAddress()}} >{order.o_address ? order.o_address.split('|')[0] + order.o_address.split('|')[2] : ''}</View>
-            </View>
+            {
+              order.o_address && 
+              <View className='footer-row'>
+                <View className='row-label'>收货地址:</View>
+                <Image className='row-icon mr10' src={addressPng} onClick={() => {this.lookAddress()}} />
+                <View className='row-text color-text' onClick={() => {this.lookAddress()}} >{order.o_address ? order.o_address.split('|')[0] + order.o_address.split('|')[2] : ''}</View>
+              </View>
+            }
             {
               order.o_remark && 
               <View className='footer-row'>
