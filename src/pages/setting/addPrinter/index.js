@@ -62,7 +62,7 @@ export default class AddPrinter extends Component {
         type: 'desk/savePrinter',
         payload
       }).then((res) => {
-        if(res != undefined || res != '203') {
+        if(res != undefined && res != '203') {
           Taro.showToast({
             title: '保存成功',
             icon: 'success',
@@ -92,7 +92,7 @@ export default class AddPrinter extends Component {
         id: this.state.id
       }
     }).then((res) => {
-      if(res != undefined || res != '203') {
+      if(res != undefined && res != '203') {
         Taro.showToast({
           title: '删除成功',
           icon: 'success',

@@ -305,7 +305,7 @@ export default class orderDetail extends Component {
             <View className='money-rows'>
               <View className='rows-label'>合计</View>
               {
-                order.o_order_status == 6 && <View className='color-text'>已退款<Text>&yen;</Text>{order.o_refund_amount}</View>
+                order.o_order_status == 6 && <View className='color-text red-text '>已退款<Text>&yen;</Text>{order.o_refund_amount}</View>
               }
               <View className={`rows-num default-text ${order.o_order_status == 6 ? 'noUsed' : ''}`}><Text>&yen;</Text>{order.o_pay_amount}</View>
             </View> 

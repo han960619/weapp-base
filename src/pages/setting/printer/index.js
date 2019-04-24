@@ -32,7 +32,7 @@ export default class PrinterSetting extends Component {
         store_id: Taro.getStorageSync('storeId')
       }
     }).then((res) => {
-      if(!res || res == '203') {
+      if(res != undefined && res == '203') {
       }else {
         res = res.rows ? res.rows : []
         let curPrinter = res.filter((item) => {

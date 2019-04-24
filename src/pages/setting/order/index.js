@@ -44,7 +44,7 @@ export default class OrderSetting extends Component {
       type: 'desk/fetchOrder',
       payload
     }).then((res) => {
-      if(res != 203) {
+      if(res != undefined && res != 203) {
         if(!save) {
           this.setState({
             ...res,

@@ -43,7 +43,7 @@ export default class RepastSetting extends Component {
       type: 'desk/fetchRepast',
       payload
     }).then((res) => {
-      if(res != 203) {
+      if(res != undefined && res != 203) {
         if(!save) {
           this.setState({
             ...res,

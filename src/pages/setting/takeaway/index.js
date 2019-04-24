@@ -46,7 +46,7 @@ export default class TakeawaySetting extends Component {
       type: 'desk/fetchTakeaway',
       payload
     }).then((res) => {
-      if(res != 203 && !save) {
+      if(res != undefined && res != 203 && !save) {
         this.setState({
           ...res,
           loading: true
