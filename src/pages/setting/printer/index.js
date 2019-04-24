@@ -34,7 +34,7 @@ export default class PrinterSetting extends Component {
     }).then((res) => {
       if(!res || res == '203') {
       }else {
-        res = res.row ? res.row : []
+        res = res.rows ? res.rows : []
         let curPrinter = res.filter((item) => {
           return item.print_status == 1
         })
