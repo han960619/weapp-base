@@ -29,15 +29,24 @@ export default class OrderCancel extends Component {
     })
   }
   
-  bindKeyInput = (e) => {
+  bindKeyInput = (e, key) => {
     this.setState({
-      note: e.detail.value
+      [key]: e.detail.value
     })
   }
 
   submitForm = () => {
     const { note, amount, o_id, o_pay_amount } = this.state
     const store_id = Taro.getStorageSync('storeId')
+    if(!amount) {
+      Taro.showToast({
+        title: '请输入退款金额',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+      return false
+    }
     if( +amount > +o_pay_amount) {
       Taro.showToast({
         title: '退款金额不能大于支付金额',
@@ -72,13 +81,13 @@ export default class OrderCancel extends Component {
   }
 
   render() {
-    const { note, amount } = this.state
+    const { note, amount, o_pay_amount } = this.state
     return (
       <View className='order-cancel'>
         <View className='refund panes'>
           <View className='refund-wrap'>
             <View className='tips'>微信支付</View>
-            <View className='txt price'>￥10.00</View>
+            <View className='txt price'>￥{o_pay_amount}</View>
           </View>
           <View className='refund-wrap'>
             <View className='tips'>退款金额</View>

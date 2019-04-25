@@ -3,6 +3,8 @@ import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import './index.less'
 import bg from '../../assets/images/storeList-bg.png'
+import noStorePng from '../../assets/images/noStore.png'
+import EmptyPage from '../../components/EmptyContent'
 @connect(({common}) => ({...common}))
 
 export default class StoreList extends Component {
@@ -57,6 +59,12 @@ export default class StoreList extends Component {
                   </View>  
                 </View>
               ))
+            }
+            {
+              storeList.length == 0 
+              && <View className='no-store'>
+                  <EmptyPage image={noStorePng} imageWidth={150} tip='——  暂无门店  ——' />
+                 </View>
             }
           </View>
         </View>

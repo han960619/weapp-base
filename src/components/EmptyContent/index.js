@@ -22,11 +22,11 @@ class EmptyPage extends Component {
   }
 
   render () {
-    const { image, buttonText, tip } = this.props
+    const { image, buttonText, tip, imageWidth } = this.props
     return (
       <View className='noUser-page'>
         <View className="close-cover">
-        <Image src={image}  mode="widthFix"/>
+        <Image src={image} style={imageWidth ? `width:${imageWidth}px` : ''} mode="widthFix"/>
         </View>
         <View className="close-tip">{tip}</View>
         {

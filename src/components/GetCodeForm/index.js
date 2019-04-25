@@ -5,6 +5,8 @@ import { AtInput } from 'taro-ui'
 import PropTypes from 'prop-types'
 import './index.less'
 import {connect} from '@tarojs/redux'
+import codePng from '../../assets/images/code.png'
+import telephonePng from '../../assets/images/telephone.png'
 let time;
 
 @connect(({common}) => ({...common}))
@@ -67,7 +69,6 @@ class GetCodeForm extends Component {
       Taro.showToast({
         title: '请输入正确手机号',
         icon: 'none',
-        image: '../../assets/images/toast-warn.png',
         mask: true,
         duration: 2000
       })
@@ -86,6 +87,7 @@ class GetCodeForm extends Component {
     return (
       <View className="form-item">
         <View className="form-row">
+          <Image className='row-bg bg-phone' src={telephonePng}/>
           <AtInput
             name='mobile'
             type='number'
@@ -98,10 +100,11 @@ class GetCodeForm extends Component {
           />
         </View>
         <View className="form-row code-row">
+          <Image className='row-bg bg-code' src={codePng}/>
           <AtInput
             className="code-input"
             name='code'
-            type='text'
+            type='number'
             border={false}
             clear
             placeholder='验证码'
@@ -111,7 +114,7 @@ class GetCodeForm extends Component {
           >
           {
             isShow ? 
-              <View className="form-control form-defaultText">{sec}</View>
+              <View className="form-control form-defaultText">{sec} S</View>
               :
               <View className={classnames('form-control', !mobile ? 'form-defaultText' : '')} onClick={() => { this.getCode() }}>获取验证码</View> 
           }

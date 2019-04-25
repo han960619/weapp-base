@@ -3,6 +3,8 @@ import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import GetCodeForm from '../../components/GetCodeForm'
+import passwordPng from '../../assets/images/password.png'
+import loginBg2 from '../../assets/images/loginBg2.png'
 import './index.less'
 
 @connect(({common}) => ({...common}))
@@ -11,7 +13,9 @@ export default class Index extends Component {
 
   config = {
     navigationBarTitleText: '后台登录',
-    disableScroll: true
+    disableScroll: true,
+    navigationBarBackgroundColor: '#FF8F1F',
+    navigationBarTextStyle: 'white'
   }
 
   state = {
@@ -65,6 +69,7 @@ export default class Index extends Component {
     const { mobile, code, password } = this.state
     return (
       <View className="reset-page">
+        <Image className='page-bg' src={loginBg2} />
         <AtForm
           className='reset-form'
           onSubmit={() => { this.onSubmit() }}
@@ -76,6 +81,7 @@ export default class Index extends Component {
             updateProps={(type, value) => {this.handleChange(type, value)}} 
           />
           <View className="form-row">
+            <Image className='row-bg bg-password' src={passwordPng} />
             <AtInput
               name='password'
               type='password'

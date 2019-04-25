@@ -48,7 +48,7 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     },
     tabBar: {
-      borderStyle: 'black',
+      borderStyle: 'white',
       color: '#CCCCCC',
       backgroundColor: '#fff',
       selectedColor: '#FF8F1F',
@@ -64,7 +64,7 @@ class App extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: 'pages/store/index'
+        url: 'pages/storeList/index'
       })
     }else {
       Taro.redirectTo({

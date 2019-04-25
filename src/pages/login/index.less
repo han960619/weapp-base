@@ -2,61 +2,101 @@
 	box-sizing: border-box;
 	height: 100vh;
 	background: #fff;
-	padding: 50rpx 120rpx;
+	.page-bg {
+		height: 293px;
+		width: 750px;
+	}
 	.at-form {
-		padding: 0;
+		padding: 0 100px;
 		&::after {
 			border: none;
 		}
 	}
 	.at-input {
-		padding: 14rpx 0;
+		padding: 14px 0;
 	}
 	.page-header {
-		width: 510rpx;
-		text-align: center;
 		display: flex;
 		margin-bottom: 90px;
+		padding: 12px 100px;
 		.header-title {
 			flex: 1;
 			font-weight:400;
-			line-height:56rpx;
-			font-size: 40rpx;
-			color:rgba(157,157,157,1);
+			line-height:56px;
+			font-size: 36px;
+			font-weight:bold;
+			color:#999999;
+			&:first-child {
+				margin-right: 70px;
+			}
 			&.active {
-				font-weight:bold;
-				color:rgba(60,60,60,1);
+				position: relative;
+				color: #404040;
+				font-size: 48px;
+				line-height: 68px;
+				&::after {
+					content: '';
+					position: absolute;
+					left: 0;
+					bottom: -5px;
+					width: 90px;
+					height: 6px;
+					border-radius:6px;
+					background-color: #FF8F1F;
+					z-index: 800;
+				}
 			}
 		}
 	}
 	.login-form {
-		font-size: 28rpx;
+		font-size: 28px;
 		.form-button {
 			color: #ffffff;
-			height:76rpx;
-			line-height: 76rpx;
-			background:linear-gradient(133deg,rgba(72,72,72,1) 0%,rgba(60,60,60,1) 100%);
-			border-radius:6px;
+			margin-top: 120px;
+			font-size: 32px;
+			width:550px;
+			height:96px;
+			line-height: 96px;
+			background:linear-gradient(90deg,rgba(255,179,102,1) 0%,rgba(255,143,31,1) 100%);
+			box-shadow:0px 10px 20px rgba(255,143,31,0.2);
+			opacity:1;
+			border-radius:67px;
 			border: none;
-			margin-top: 40rpx;
-			font-size: 32rpx;
 		}
 		.form-control {
-			border:2rpx solid rgba(60,60,60,1);
-			color: #333;
+			color: #FF8F1F;
+			font-size: 28px !important;
 			&.form-defaultText {
-				color:rgba(226,226,226,1);
-				border:2rpx solid rgba(226,226,226,1);
+				color:#ccc;
 			}
 		}
 		.form-row {
-			border-bottom:2rpx solid rgba(226,226,226,1);
+			position: relative;
+			padding-left: 70px;
+			margin-bottom: 80px;
+			border-bottom:2px solid rgba(226,226,226,1);
+			.row-bg {
+				position: absolute;
+				top: 20px;
+				left: 0;
+				height: 36px;
+				&.bg-phone {
+					width: 26px;
+				}
+				&.bg-code {
+					width: 32px;
+				}
+				&.bg-password {
+					width: 30px;
+				}
+			}
 		}
 	}
 	.link-to {
-		margin-top: 20rpx;
-		padding: 10rpx 0;
-		color: #6694EF;
-		font-size: 24rpx;
+		text-align: center;
+		margin: 30px auto;
+		padding: 10px 30px;
+		color: #FF8F1F;
+		font-size: 28px;
 	}
 }

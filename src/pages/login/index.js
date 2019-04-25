@@ -6,6 +6,9 @@ import classnames from 'classnames'
 import GetCodeForm from '../../components/GetCodeForm'
 import './index.less'
 import toastPng from '../../assets/images/toast-warn.png'
+import loginBg from '../../assets/images/loginBg.png'
+import telephonePng from '../../assets/images/telephone.png'
+import passwordPng from '../../assets/images/password.png'
 
 
 @connect(({common}) => ({...common}))
@@ -14,7 +17,9 @@ export default class Login extends Component {
 
   config = {
     navigationBarTitleText: '后台登录',
-    disableScroll: true
+    disableScroll: true,
+    navigationBarBackgroundColor: '#FF8F1F',
+    navigationBarTextStyle: 'white'
   }
 
 
@@ -35,7 +40,7 @@ export default class Login extends Component {
           code
         }
       }else {
-        this.toastOption('请输入正确的手机号和验证码', toastPng)
+        this.toastOption('请输入正确的手机号和验证码')
         return false
       }
     }else {
@@ -45,7 +50,7 @@ export default class Login extends Component {
           password
         }
       }else {
-        this.toastOption('请输入正确的手机号和密码', toastPng)
+        this.toastOption('请输入正确的手机号和密码')
         return false
       }
     }
@@ -94,6 +99,7 @@ export default class Login extends Component {
     const { active, code, mobile, password } = this.state;
     return (
       <View className='login-page'>
+        <Image className='page-bg' src={loginBg} />
         <View className='page-header'>
           <View
             className={classnames('header-title normal', active === 1 ? 'active' : '')}
@@ -111,6 +117,7 @@ export default class Login extends Component {
             active == 2 ? 
               <View className="form-item">
                 <View className="form-row">
+                  <Image className='row-bg bg-phone' src={telephonePng} />
                   <AtInput
                     name='mobile'
                     type='number'
@@ -123,6 +130,7 @@ export default class Login extends Component {
                   />
                 </View>
                 <View className="form-row">
+                  <Image className='row-bg bg-password' src={passwordPng} />
                   <AtInput
                     name='password'
                     type='password'

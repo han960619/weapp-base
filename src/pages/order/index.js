@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import noPowerPng from '../../assets/images/noPower.png'
 import noOrderPng from '../../assets/images/noOrder.png'
 import filterMorePng from '../../assets/images/filterMore.png'
-import clockPng from '../../assets/images/orderClock.png'
+import clockPng from '../../assets/images/clock.png'
 import markPng from '../../assets/images/mark.png'
 import checkPng from '../../assets/images/check.png'
 import take_dadaPng from '../../assets/images/take_dada.png'
@@ -73,7 +73,6 @@ export default class Order extends Component {
           power: false 
         })
       }else{
-				console.log(res)
         const _status = {
           take_info: res.take_info != undefined ? res.take_info : [],
           can_fetch: page <= (res.total / 10),
