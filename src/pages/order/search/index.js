@@ -22,7 +22,6 @@ export default class orderSearch extends Component {
     navigationBarTitleText: '订单搜索',
   }
 
-
   state = {
     keyword: '',
     orderData: {},
@@ -36,6 +35,16 @@ export default class orderSearch extends Component {
 		showTakeDetail: false,
 		takeLog: []
   }
+
+  componentDidShow () {
+		this.setState({
+			can_fetch: true,
+			page: 1,
+			orderList: null
+		}, () => {
+			this.fetchOrderList()
+		})
+	}
 
   fetchOrderList = () => {
     const { page, can_fetch, orderList, keyword } = this.state

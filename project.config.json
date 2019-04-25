@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
   "projectname": "weapp",
-  "description": "手机投�后台",
-  "appid": "touristappid",
+  "description": "手机后台",
+  "appid": "wxc5f436049526037c",
   "setting": {
     "urlCheck": true,
     "es6": false,

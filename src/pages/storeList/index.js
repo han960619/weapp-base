@@ -35,7 +35,7 @@ export default class StoreList extends Component {
   linkTo = store => {
     Taro.setStorageSync('storeId', store.store_id )
     Taro.setStorageSync('storeData', store )
-    Taro.reLaunch({ url: '/pages/desk/index' })
+    Taro.reLaunch({ url: '/pages/store/index' })
   }
 
   render () {
