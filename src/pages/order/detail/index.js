@@ -254,6 +254,7 @@ export default class orderDetail extends Component {
               order.o_order_status == 42 && order.take_id == 2
               &&  <View className='warn-text flex1'>
                     <View className='reset-text' onClick={() => {this.fetchTakeLog()}}>{order.status_remark}</View>
+                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
                   </View>
             }
             {
@@ -386,7 +387,7 @@ export default class orderDetail extends Component {
             <View className='options-box'>
               <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
-              <Picker mode='selector' range={cancelList} value={current} onChange={(e) => { this.selectCancel(e.detail.value)}}>
+              <Picker mode='selector' range={cancelList} rangeKey={'content'} value={current} onChange={(e) => { this.selectCancel(e.detail.value)}}>
                 <View className='item-button ok-button'>取消配送</View>
               </Picker>
             </View>
