@@ -116,7 +116,7 @@ export default class Store extends Component {
         status: is_connect_printer == 1
       },
       {
-        name: '外卖设置',
+        name: '默认配送',
         path: '/pages/setting/takeaway/index',
         status: send_type == 1
       }

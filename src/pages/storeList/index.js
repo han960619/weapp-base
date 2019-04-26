@@ -12,7 +12,8 @@ export default class StoreList extends Component {
   config = {
     navigationBarTitleText: '选择门店',
     navigationBarBackgroundColor: '#FF8F1F',
-    navigationBarTextStyle: 'white'
+    navigationBarTextStyle: 'white',
+    disableScroll: true
   }
 
   componentDidMount () {
@@ -48,7 +49,7 @@ export default class StoreList extends Component {
           <View className='greed'>{this.calcHourZone()}</View>
         </View>
         <View className='page-content'>
-          <View className='store-list'>
+          <ScrollView scrollY className='store-list'>
             {
               storeList && storeList.map((item, index) => (
                 <View className='store-item' onClick={() => {this.linkTo(item)}} key={index}>
@@ -66,7 +67,7 @@ export default class StoreList extends Component {
                   <EmptyPage image={noStorePng} imageWidth={150} tip='——  暂无门店  ——' />
                  </View>
             }
-          </View>
+          </ScrollView>
         </View>
       </View>
     )

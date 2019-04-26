@@ -15,6 +15,7 @@ export default class StoreSetting extends Component {
 
   config = {
     navigationBarTitleText: '我的设置',
+    disableScroll: true,
     navigationBarBackgroundColor: '#FF8E1F',
     navigationBarTextStyle: 'white'
   }
