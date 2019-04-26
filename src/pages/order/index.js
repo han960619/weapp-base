@@ -17,7 +17,7 @@ import EmptyPage from '../../components/EmptyContent'
 import Drawer from '../../components/Drawer'
 import Timeline from '../../components/Timeline'
 import { orderTabList, takeStatus, orderStatus } from '../../config/index'
-import { AtTabs, AtTabsPane, AtIcon, AtFloatLayout } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtIcon, AtFloatLayout, AtActivityIndicator } from 'taro-ui'
 
 @connect(({order}) => ({...order}))
 
@@ -45,7 +45,8 @@ export default class Order extends Component {
 		showCause: false,
 		showSelect: false,
 		showTakeDetail: false,
-		takeLog: []
+		takeLog: [],
+		loading: true
   }
 
   // componentWillMount () {}
@@ -80,8 +81,9 @@ export default class Order extends Component {
           orderList: page == 1 ? [].concat(res.rows) : orderList.concat(res.rows)
         }
         this.setState({
-          ..._status
-        })
+					..._status,
+					loading: false
+				})
       }
     })
   }
@@ -90,7 +92,8 @@ export default class Order extends Component {
 		this.setState({
 			can_fetch: true,
 			page: 1,
-			orderList: null
+			orderList: null,
+			loading: true
 		}, () => {
 			this.fetchOrderList()
 		})
@@ -109,7 +112,8 @@ export default class Order extends Component {
         current: value,
         status: orderTabList[value].status,
         can_fetch: true,
-        page: 1,
+				page: 1,
+				loading: true,
         orderList: null
       }, () => {
         this.fetchOrderList()
@@ -131,6 +135,7 @@ export default class Order extends Component {
 		if( order_type != old_order || take_type != old_take ) {
 			this.setState({
 				can_fetch: true,
+				loading: true,
 				page: 1,
 				orderList: null
 			}, () => {
@@ -191,7 +196,8 @@ export default class Order extends Component {
 				})
 				this.setState({
 					can_fetch: true,
-					page: 1
+					page: 1,
+					loading: true
 				}, () => {
 					this.fetchOrderList()
 				})
@@ -225,7 +231,7 @@ export default class Order extends Component {
 			this.setState({
 				showSelect: false
 			})
-			if( index == 0 && orderData.take_id == 1) {
+			if( index == 0 && orderData.take_id == 1 && orderData.take_status == 0) {
 				return 
 			}else {
 				this.fetchOption(orderData, 'deliverTake', { type: +index + 1, select: +index + 1 })
@@ -234,8 +240,180 @@ export default class Order extends Component {
 	}
 
   render () {
-    const { power, current, orderList, take_type, take_info, takeLog, order_type, showTakeDetail, show, showCause, orderData, showSelect } = this.state 
+    const { power, current, orderList, loading, take_type, take_info, takeLog, order_type, showTakeDetail, show, showCause, orderData, showSelect } = this.state 
 		const selectList = ['全部', '堂食单', '外卖单']
+		console.log(loading)
+		const list = orderList && orderList.map((order, i) => (
+			<View key={i} className='order-item'>
+				<View onClick={() => {this.linkToDetail(order)}}>
+					<View className='item-header'>
+						<View className='header-time'>{order.o_reserve_time}</View>
+						<View className='header-text'>{order.o_take_type == 3 ? '送达' : '取餐'}</View>
+						<View className='header-type'>{orderStatus[order.o_order_status]}</View>
+					</View>
+					<View className='item-labels'>
+						{
+							order.o_send_goods_id > 0 ? <View className='item-label yellow'>满单</View> : ''
+						}
+						{
+							order.o_order_type == 2 ? <View className='item-label blue'>预约</View> : ''
+						}
+						{
+							order.o_take_type == 2 ? <View className='item-label green'>打包</View> : ''
+						}
+					</View>
+					<View className='item-goods'>
+						<View className='goods-name'>{order.goods_title}</View>
+						<View className='goods-number'>等共<Text className='color-num'>{order.goods_num}</Text>件商品</View>
+					</View>
+					<View className='item-money'>
+						{
+							order.o_order_status == 6 
+							? <View className='drewBack'>
+									<View className='drewBack-empty'></View>
+									<View className='drewBack-number'>已退款 &yen;{order.o_refund_amount}</View>
+									<View className='after-number'>&yen;{order.o_pay_amount}</View>
+								</View>
+							: <View className='pay-number'>&yen;{order.o_pay_amount}</View>
+						}
+					</View>
+				</View>
+				{
+					(order.o_order_status == 6 || order.o_order_status == 7 || order.o_order_status == 5 || order.o_order_status == 8) && !order.o_remark 
+					? '' : <View className='underLine'></View>
+				}
+				{
+					order.o_remark ?  <View className='item-remark'>
+															<View className='remark-left'>备注：</View>
+															<View className='remark-right'>{order.o_remark}</View>	
+														</View> : ''
+				}
+				{
+					order.o_order_status == 1 
+					? <View className='item-option item-status1'>
+							<View className='button-group'>
+								<View className='flex1'></View>
+								<View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
+							</View>
+							<View className='item-warn'>
+								<View className='flex1'></View>
+								<Image className='item-icon' src={clockPng} />
+								<View className='warn-text'>{order.remind}</View>
+							</View>
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 2 
+					? <View className='item-option item-status2'>
+							<View className='button-group'>
+								<View className='flex1'></View>
+								<View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
+								<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'acceptOrder') }}>确认接单</View>
+							</View>
+							<View className='item-warn'>
+								<View className='flex1'></View>
+								<Image className='item-icon' src={clockPng} />
+								<View className='warn-text'>{order.remind}</View>
+							</View>
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 3 || order.o_order_status == 32
+					? <View className='item-option item-status3'>
+							<View className='button-group'>
+								<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
+								<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'makeComplete') }}>制作完成</View>
+							</View>
+							<View className='item-warn'>
+								<View className='flex1'></View>
+								<Image className='item-icon' src={clockPng} />
+								<View className='warn-text'>{order.remind}</View>
+							</View>
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 31
+					? <View className='item-option item-status31'>
+							<View className='button-group'>
+								<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
+								<View className='item-button ok-button'  onClick={() => { this.fetchOption(order, 'makeStart') }}>开始制作</View>
+							</View>
+							<View className='item-warn'>
+								<View className='flex1'></View>
+								<Image className='item-icon' src={clockPng} />
+								<View className='warn-text'>{order.remind}</View>
+							</View>
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 4
+					? <View className='item-option item-status4'>
+							<View className='button-group'>
+								<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
+								<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'takeOrder') }}>确认取餐</View>
+							</View>
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 41
+					? <View className='item-option item-status41'>
+							{
+								(order.take_status == 0 && order.take_id == 0) || order.take_status == 5
+								? <View className='button-group'>
+										<View className='flex1'></View>
+										<View className='reset-take'>
+											{
+												order.take_status == 0
+												? <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>请选择配送方式</View>
+												: <View className='reset'>
+															{
+															order.take_id == 2 &&  <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
+														}
+														<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>配送被取消，请重新选择</View>
+													</View>
+											}
+										</View>
+										<AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+									</View>
+								: ''
+							}
+							{
+								order.take_id == 1 && order.take_status != 5
+								? <View className='button-group'>
+										<View className='flex1'></View>
+										<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>更换</View>
+										<View className='reset-default'>商家配送</View>
+										<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
+									</View>
+								: ''
+							}
+						</View>
+					: ''
+				}
+				{
+					order.o_order_status == 42
+					? <View className='item-option item-status4'>
+							<View className='button-group'>
+								<View className='flex1'></View>
+								{
+									order.take_id == 1
+									? <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
+									: <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
+											<View className='reset-text'>{order.take_remark}</View>
+											<AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+										</View>
+								}
+							</View>
+						</View>
+					: ''
+				}
+			</View>
+		))
     return (
       <View className='order-page'>
         {
@@ -252,186 +430,18 @@ export default class Order extends Component {
                 </View>
               </View>
               <View className='page-content'>
-                <AtTabs scroll={true} swipeable={false} current={current} tabList={orderTabList} onClick={this.handleClick.bind(this)}>
+                <AtTabs scroll={true} animated={false} swipeable={false} lowerThreshold={150} current={current} tabList={orderTabList} onClick={this.handleClick.bind(this)}>
                   {
                     orderTabList.map((item, index) => (
                       <AtTabsPane current={current} index={index} key={index}>
                         {
-                          orderList 
+                          !loading 
                           ? <View>
                               {
                                 orderList && orderList.length > 0 
                                 ? <ScrollView scrollY={orderList.length > 1} onScrollToLower={() => {this.fetchOrderList()}} className='order-list'>
                                     {
-                                      orderList.map((order, i) => (
-                                        <View key={i} className='order-item'>
-                                          <View onClick={() => {this.linkToDetail(order)}}>
-																						<View className='item-header'>
-																							<View className='header-time'>{order.o_reserve_time}</View>
-																							<View className='header-text'>{order.o_take_type == 3 ? '送达' : '取餐'}</View>
-																							<View className='header-type'>{orderStatus[order.o_order_status]}</View>
-																						</View>
-																						<View className='item-labels'>
-																							{
-																								order.o_send_goods_id > 0 ? <View className='item-label yellow'>满单</View> : ''
-																							}
-																							{
-																								order.o_order_type == 2 ? <View className='item-label blue'>预约</View> : ''
-																							}
-																							{
-																								order.o_take_type == 2 ? <View className='item-label green'>打包</View> : ''
-																							}
-																						</View>
-																						<View className='item-goods'>
-																							<View className='goods-name'>{order.goods_title}</View>
-																							<View className='goods-number'>等共<Text className='color-num'>{order.goods_num}</Text>件商品</View>
-																						</View>
-																						<View className='item-money'>
-																							{
-																								order.o_order_status == 6 
-																								? <View className='drewBack'>
-																										<View className='drewBack-empty'></View>
-																										<View className='drewBack-number'>已退款 &yen;{order.o_refund_amount}</View>
-																										<View className='after-number'>&yen;{order.o_pay_amount}</View>
-																									</View>
-																								: <View className='pay-number'>&yen;{order.o_pay_amount}</View>
-																							}
-																						</View>
-																					</View>
-                                          {
-                                            (order.o_order_status == 6 || order.o_order_status == 7 || order.o_order_status == 5 || order.o_order_status == 8) && !order.o_remark 
-                                            ? '' : <View className='underLine'></View>
-                                          }
-                                          {
-                                            order.o_remark ?  <View className='item-remark'>
-																															  <View className='remark-left'>备注：</View>
-																																<View className='remark-right'>{order.o_remark}</View>	
-																														  </View> : ''
-                                          }
-                                          {
-                                            order.o_order_status == 1 
-                                            ? <View className='item-option item-status1'>
-                                                <View className='button-group'>
-																									<View className='flex1'></View>
-                                                  <View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
-                                                </View>
-                                                <View className='item-warn'>
-																									<View className='flex1'></View>
-                                                  <Image className='item-icon' src={clockPng} />
-                                                  <View className='warn-text'>{order.remind}</View>
-                                                </View>
-                                              </View>
-                                            : ''
-                                          }
-                                          {
-                                            order.o_order_status == 2 
-                                            ? <View className='item-option item-status2'>
-                                                <View className='button-group'>
-																									<View className='flex1'></View>
-                                                  <View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
-                                                  <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'acceptOrder') }}>确认接单</View>
-                                                </View>
-                                                <View className='item-warn'>
-																									<View className='flex1'></View>
-                                                  <Image className='item-icon' src={clockPng} />
-                                                  <View className='warn-text'>{order.remind}</View>
-                                                </View>
-                                              </View>
-                                            : ''
-                                          }
-                                          {
-                                            order.o_order_status == 3 || order.o_order_status == 32
-                                            ? <View className='item-option item-status3'>
-                                                <View className='button-group'>
-                                                	<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
-																									<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'makeComplete') }}>制作完成</View>
-                                                </View>
-                                                <View className='item-warn'>
-																									<View className='flex1'></View>
-                                                  <Image className='item-icon' src={clockPng} />
-                                                  <View className='warn-text'>{order.remind}</View>
-                                                </View>
-                                              </View>
-                                            : ''
-                                          }
-                                          {
-                                            order.o_order_status == 31
-                                            ? <View className='item-option item-status31'>
-                                                <View className='button-group'>
-                                                	<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
-																									<View className='item-button ok-button'  onClick={() => { this.fetchOption(order, 'makeStart') }}>开始制作</View>
-                                                </View>
-                                                <View className='item-warn'>
-																									<View className='flex1'></View>
-                                                  <Image className='item-icon' src={clockPng} />
-                                                  <View className='warn-text'>{order.remind}</View>
-                                                </View>
-                                              </View>
-                                            : ''
-                                          }
-                                          {
-                                            order.o_order_status == 4
-                                            ? <View className='item-option item-status4'>
-                                                <View className='button-group'>
-                                                	<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
-																									<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'takeOrder') }}>确认取餐</View>
-                                                </View>
-                                              </View>
-                                            : ''
-																					}
-																					{
-                                            order.o_order_status == 41
-                                            ? <View className='item-option item-status41'>
-                                                {
-																									(order.take_status == 0 && order.take_id == 0) || order.take_status == 5
-																									? <View className='button-group'>
-																											<View className='flex1'></View>
-																											<View className='reset-take'>
-																												{
-																													order.take_status == 0
-																													? <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>请选择配送方式</View>
-																													: <View className='reset'>
-																															<Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
-                                                  						<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>配送被取消，请重新选择</View>
-																														</View>
-																												}
-																											</View>
-																											<AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
-																										</View>
-																									: ''
-																								}
-																								{
-																									order.take_id == 1 && (order.take_status != 5 || order.take_status != 0)
-																									? <View className='button-group'>
-																											<View className='flex1'></View>
-																											<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>商家配送</View>
-																											<View className='reset-default'>商家配送</View>
-																											<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
-																										</View>
-																									: ''
-																								}
-                                              </View>
-                                            : ''
-																					}
-																					{
-                                            order.o_order_status == 42
-                                            ? <View className='item-option item-status4'>
-                                                <View className='button-group'>
-																									<View className='flex1'></View>
-																									{
-																										order.take_id == 1
-																										? <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
-																										: <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
-																												<View className='reset-text'>{order.take_remark}</View>
-																												<AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
-																											</View>
-																									}
-                                                </View>
-                                              </View>
-                                            : ''
-																					}
-                                        </View>
-                                      ))
+                                      list
 																		}
 																		<View className='empty'></View>
                                   </ScrollView>
@@ -440,8 +450,8 @@ export default class Order extends Component {
                                   </View>
                               }
                             </View>
-                          : ''
-                        }
+                          : (index == current && <AtActivityIndicator size={32} color='#FF8F1F' mode='center'></AtActivityIndicator>)
+												}
                       </AtTabsPane>
                     ))
                   }

@@ -50,7 +50,7 @@ export default class StoreList extends Component {
         <View className='page-content'>
           <View className='store-list'>
             {
-              storeList.map((item, index) => (
+              storeList && storeList.map((item, index) => (
                 <View className='store-item' onClick={() => {this.linkTo(item)}} key={index}>
                   <Image className='item-logo' src={item.b_logo} />
                   <View className='item-desc'>
@@ -61,7 +61,7 @@ export default class StoreList extends Component {
               ))
             }
             {
-              storeList.length == 0 
+              storeList && storeList.length == 0 
               && <View className='no-store'>
                   <EmptyPage image={noStorePng} imageWidth={150} tip='——  暂无门店  ——' />
                  </View>

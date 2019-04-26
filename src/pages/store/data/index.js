@@ -2,15 +2,7 @@ import Taro, { Component, getApp } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import dashboard_order_num from '../../../assets/images/order_num.png'
-import dashboard_bug_num from '../../../assets/images/bug_num.png'
-import dashboard_money from '../../../assets/images/money.png'
-import dashboard_add_user from '../../../assets/images/add_user.png'
-import dashboard_refund_num from '../../../assets/images/refund_num.png'
-import dashboard_refund from '../../../assets/images/refund.png'
 import morePng from '../../../assets/images/more.png'
-import goods_refund_num from '../../../assets/images/goods_refund_num.png'
-import goods_num from '../../../assets/images/goods_num.png'
 import noPowerPng from '../../../assets/images/noPower.png'
 
 import './index.less'
@@ -21,8 +13,8 @@ export default class StoreData extends Component {
 
   config = {
     navigationBarTitleText: '数据概况',
-    navigationBarBackgroundColor: '#637BF8',
-    navigationBarTextStyle: 'white',
+    // navigationBarBackgroundColor: '#637BF8',
+    // navigationBarTextStyle: 'white',
     disableScroll: true,
   }
 
@@ -56,16 +48,17 @@ export default class StoreData extends Component {
 
   componentWillMount () {
     this.fetchData('store/getStoreData', 'dashboardData')
+    this.fetchData('store/getStoreGoods', 'goodsData')
   }
 
   handleClick = (value) => {
     const { current } = this.state
     if(current != value) {
-      if(value == 0) {
-        this.fetchData('store/getStoreData', 'dashboardData')
-      }else {
-        this.fetchData('store/getStoreGoods', 'goodsData')
-      }
+      // if(value == 0) {
+      //   this.fetchData('store/getStoreData', 'dashboardData')
+      // }else {
+      //   this.fetchData('store/getStoreGoods', 'goodsData')
+      // }
       this.setState({
         current: value
       })
@@ -107,11 +100,11 @@ export default class StoreData extends Component {
         this.setState({
           baseTime: time
         }, () => {
-          if(current == 0) {
+          // if(current == 0) {
             this.fetchData('store/getStoreData', 'dashboardData')
-          }else {
+          // }else {
             this.fetchData('store/getStoreGoods', 'goodsData')
-          }
+          // }
         })
       }
     })
@@ -125,42 +118,36 @@ export default class StoreData extends Component {
       {
         title: '客户订单数',
         value: dashboardData.total_number,
-        img: dashboard_order_num
       },{
         title: '购买客户数',
         value: dashboardData.user_order_number,
-        img: dashboard_bug_num
-      },{
-        title: '客单价(元)',
-        value: dashboardData.user_unit_price,
-        img: dashboard_money
       },{
         title: '新增客户数',
         value: dashboardData.user_new_number,
-        img: dashboard_add_user
-      },{
-        title: '退款金额(元)',
-        value: dashboardData.refund_amount,
-        img: dashboard_refund_num
       },{
         title: '退款订单数',
         value: dashboardData.refund_number,
-        img: dashboard_refund
+      },{
+        title: '客单价(元)',
+        hasIcon: true,
+        value: dashboardData.user_unit_price,
+      },{
+        title: '退款金额(元)',
+        hasIcon: true,
+        value: dashboardData.refund_amount,
       }
     ]
     const goodsList = [
       {
         title: '商品总销量',
         value: goodsData.total_sales_number,
-        img: goods_num
       },{
         title: '商品退款数',
         value: goodsData.total_refund_number,
-        img: goods_refund_num
       },{
         title: '退款金额(元)',
+        hasIcon: true,
         value: goodsData.total_refund_amount,
-        img: dashboard_refund_num
       }
     ]
     let pageData = {
@@ -170,32 +157,34 @@ export default class StoreData extends Component {
       appList: current == 0 ? dashboardList : goodsList,
       time: current == 0 ? dashboardData.time : goodsData.time,
     }
-    pageData.compareNew = pageData.compareNew == '--' ? '+0' : pageData.compareNew + ''
-    pageData.compareTheLast = pageData.compareTheLast == '--' ? '+0' : pageData.compareTheLast + ''
+    pageData.compareNew = pageData.compareNew == '--' ? '0' : pageData.compareNew + ''
+    pageData.compareTheLast = pageData.compareTheLast == '--' ? '0' : pageData.compareTheLast + ''
     let label1, label2, timeText;
     switch(baseTime) {
       case 1: 
         label1 = '较前一日'
         label2 = '较上周同期'
-        timeText = '日数据'
+        timeText = '按日'
         break;
       case 2:
         label1 = '较前一周'
         label2 = '较去年同期'
-        timeText = '周数据'
+        timeText = '按周'
         break;
       case 3:
         label1 = '较前一月'
         label2 = '较去年同期'
-        timeText = '月数据'
+        timeText = '按月'
         break;
     }
     return (
       <View className='store-data-page'>
         <View className='page-header'>
           <View className='header-title'>
-            <View className='switch-text' onClick={() => {this.changePop()}}>{timeText}</View>
-            <Image className='switch-icon' onClick={() => {this.changePop()}} src={morePng} />
+            <View className='switch-box' onClick={() => {this.changePop()}}>
+              <View className='switch-text'>{timeText}</View>
+              <Image className='switch-icon' src={morePng} />
+            </View>
             <View className='header-empty'></View>
             <View className='data-time'>{pageData.time}</View>
           </View>
@@ -211,14 +200,14 @@ export default class StoreData extends Component {
                       <View className='main-content'>
                         <View className='main-left'>
                           <View className='main-label left-label'>商品总销售额(元)</View>
-                          <View className='main-num'>{pageData.payMoney}</View>
+                          <View className='main-num'><Text class="main-icon">￥</Text>{pageData.payMoney}</View>
                         </View>
                         <View className='main-right'>
                           <View className='main-item'>
                             <View className='main-status'>
                               <View className='main-label status-label'>{label1}</View>
                               <View className={pageData.compareNew.indexOf('-') > -1 ? 'down-label' : 'up-label'}>
-                                {`${pageData.compareNew}%`}
+                                {`${pageData.compareNew > 0 ? '+' + pageData.compareNew : pageData.compareNew}%`}
                               </View>
                             </View>
                           </View>
@@ -226,7 +215,7 @@ export default class StoreData extends Component {
                             <View className='main-status'>
                               <View className='main-label status-label'>{label2}</View>
                               <View className={pageData.compareTheLast.indexOf('-') > -1 ? 'down-label' : 'up-label'}>
-                                {`${pageData.compareTheLast}%`}
+                                {`${pageData.compareTheLast > 0 ? '+' + pageData.compareTheLast : pageData.compareTheLast}%`}
                               </View>
                             </View>
                           </View>
@@ -238,28 +227,23 @@ export default class StoreData extends Component {
                         </View>
                     }
                     <View className='main-apps'>
-                      <View className='apps-title'>
-                        <View className='title-icon'></View>
-                        <View className='title-text'>详细信息</View>
-                      </View>
-                      
                       {
                         (current == 0 ? dashboardPower : goodsPower)
-                        ? <ScrollView className='apps-List' scrollY>
+                        ? <View className='apps-List'>
                             {
                               pageData.appList.map((app, index) => (
                                 <View className='app-item' key={index}>
-                                  <Image className='item-icon' src={app.img} />
+                                  <View className='item-num'>
+                                    {
+                                      app.hasIcon && <Text class="item-icon">￥</Text>
+                                    }
+                                    {app.value}
+                                  </View>
                                   <View className='item-text'>{app.title}</View>
-                                  <View className='item-num'>{app.value}</View>
                                 </View>
                               ))
                             }
-                            {
-                              pageData.appList.length == 3 &&
-                              <View className='app-warn'>——  没有更多啦  ——</View>
-                            }
-                          </ScrollView>
+                          </View>
                         : <View className='apps-List noPower'>
                             <Image className='noPower-img' src={noPowerPng} />
                             <View className='noPower-text'>——  暂无权限  ——</View>

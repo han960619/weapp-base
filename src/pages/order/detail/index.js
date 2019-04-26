@@ -1,8 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtFloatLayout } from 'taro-ui'
-import markPng from '../../../assets/images/mark.png'
+import { AtIcon, AtFloatLayout } from 'taro-ui'
+import markPng from '../../../assets/images/mark2.png'
 import clockPng from '../../../assets/images/orderClock.png'
 import take_dadaPng from '../../../assets/images/take_dada.png'
 import take_storePng from '../../../assets/images/take_store.png'
@@ -75,10 +75,10 @@ export default class orderDetail extends Component {
 			this.setState({
 				showSelect: false
 			})
-			if( index == 0 && order.take_id == 1) {
+			if( index == 0 && order.take_id == 1 && order.take_status == 0) {
 				return 
 			}else {
-				this.fetchOption(order, 'deliverTake', { type: +index + 1, select: +index + 1 })
+				this.fetchOption('deliverTake', { type: +index + 1, select: +index + 1 })
 			}
 		}
 	}
@@ -117,11 +117,13 @@ export default class orderDetail extends Component {
 				...payload,
 				...data
 			}
-		}
+    }
+    console.log(1)
 		this.props.dispatch({
       type: `order/${type}`,
       payload
     }).then((res)=> {
+      console.log(2)
 			if(res != 203 && res) {
 				Taro.showToast({
 					title: '操作成功',
@@ -214,29 +216,31 @@ export default class orderDetail extends Component {
               order.o_order_status == 41 && (order.take_status == 0 && order.take_id == 0)
               &&  <View className='warn-text flex1'>
                     <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true })}}>请选择配送方式</View>
-                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
                   </View>
             }
             {
               order.o_order_status == 41 && order.take_status == 5
               &&  <View className='warn-text flex1'>
-                    <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true })}} />
+                    {
+                      order.take_id == 2 && <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true })}} />
+                    }
                     <View className='reset-text' onClick={() => {this.setState({ showSelect: true })}}>配送被取消，请重新选择</View>
-                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
                   </View>
             }
             {
-              order.o_order_status == 41 && (order.take_status != 5 || order.take_status != 0) && order.take_id == 1
+              order.o_order_status == 41 && order.take_status != 5 && order.take_id == 1
               &&  <View className='warn-text flex1'>
                     <View className='reset-text' onClick={() => {this.setState({ showSelect: true })}}>商家配送</View>
-                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
                   </View>
             }
             {
               order.o_order_status == 41 && order.take_id == 2
               &&  <View className='warn-text flex1'>
                     <View className='reset-text' onClick={() => {this.fetchTakeLog()}}>{order.status_remark}</View>
-                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+                    <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
                   </View>
             }
             {
@@ -253,11 +257,11 @@ export default class orderDetail extends Component {
                   </View>
             }
             {
-              (order.o_order_status != 41 || order.o_order_status != 42) 
+              (order.o_order_status != 41 && order.o_order_status != 42) 
               &&  <View className='warn-text flex1'>{order.status_remark ? order.status_remark : ''}</View>
             }
             {
-              (order.o_order_status == 1 || order.o_take_type != 3) && order.o_take_no
+              (order.o_order_status == 1 && order.o_take_type != 3) && order.o_take_no
               && <View className='item-number'>{order.o_take_no ? `取餐号:${order.o_take_no}` : ''}</View>
             }
           </View>
@@ -276,7 +280,7 @@ export default class orderDetail extends Component {
                       }
                       <View className='item-num flex1'>x{good.od_num}</View>
                     </View>
-                    <View className='item-norm'>{good.od_norm_str ? `(${od_norm_str})` : ''}</View>
+                    <View className='item-norm'>{good.od_norm_str ? `(${good.od_norm_str})` : ''}</View>
                     <View className='item-money'><Text>&yen;</Text>{good.od_original_price}</View>
                   </View>
                 </View>
@@ -354,7 +358,7 @@ export default class orderDetail extends Component {
               <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               {
-                (order.take_status	== 0 || order.take_status	== 5)
+                (order.take_status != 0 && order.take_status	!= 5)
                 ? <View className='item-button default-button'>确认发货</View>
                 : <View className='item-button ok-button' onClick={() => { this.fetchOption('deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
               }

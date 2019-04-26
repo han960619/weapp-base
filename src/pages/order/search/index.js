@@ -48,7 +48,15 @@ export default class orderSearch extends Component {
 
   fetchOrderList = () => {
     const { page, can_fetch, orderList, keyword } = this.state
-    if(!can_fetch) return 
+    if(!keyword) {
+      this.setState({
+        page: 1,
+        can_fetch: true,
+        orderList: null
+      })
+      return
+    }
+    if(!can_fetch || !keyword) return 
     const store_id = Taro.getStorageSync('storeId')
     this.props.dispatch({
       type: 'order/fetchOrderList',
@@ -159,17 +167,18 @@ export default class orderSearch extends Component {
 			this.setState({
 				showSelect: false
 			})
-			if( index == 0 && orderData.take_id == 1) {
+			if( index == 0 && orderData.take_id == 1 && orderData.take_status == 0) {
 				return 
 			}else {
 				this.fetchOption(orderData, 'deliverTake', { type: +index + 1, select: +index + 1 })
 			}
 		}
-  }
+	}
   
   handleChange = (value) => {
     this.setState({
-      keyword: value
+      keyword: value,
+      page: 1
     }, () => {
       this.fetchOrderList()
     })
@@ -324,7 +333,9 @@ export default class orderSearch extends Component {
                                           order.take_status == 0
                                           ? <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>请选择配送方式</View>
                                           : <View className='reset'>
-                                              <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
+                                              {
+                                                order.take_id == 2 &&  <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
+                                              }
                                               <View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>配送被取消，请重新选择</View>
                                             </View>
                                         }
@@ -334,10 +345,10 @@ export default class orderSearch extends Component {
                                   : ''
                                 }
                                 {
-                                  order.take_id == 1 && (order.take_status != 5 || order.take_status != 0)
+                                  order.take_id == 1 && order.take_status != 5
                                   ? <View className='button-group'>
                                       <View className='flex1'></View>
-                                      <View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>商家配送</View>
+                                      <View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>更换</View>
                                       <View className='reset-default'>商家配送</View>
                                       <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
                                     </View>

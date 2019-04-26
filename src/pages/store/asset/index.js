@@ -5,14 +5,6 @@ import './index.less'
 import classnames from 'classnames'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import morePng from '../../../assets/images/more.png'
-import assetBill1Png from '../../../assets/images/assetBill1.png'
-import assetBill2Png from '../../../assets/images/assetBill2.png'
-import assetBill3Png from '../../../assets/images/refund_num.png'
-import assetBill4Png from '../../../assets/images/refund.png'
-import marketingBill1Png from '../../../assets/images/marketingBill1.png'
-import marketingBill2Png from '../../../assets/images/marketingBill2.png'
-import marketingBill3Png from '../../../assets/images/marketingBill3.png'
-import marketingBill4Png from '../../../assets/images/marketingBill4.png'
 import noPowerPng from '../../../assets/images/noPower.png'
 
 @connect(({store}) => ({...store}))
@@ -21,8 +13,6 @@ export default class StoreAsset extends Component {
 
   config = {
     navigationBarTitleText: '门店资产',
-    navigationBarBackgroundColor: '#FF881F',
-    navigationBarTextStyle: 'white',
     disableScroll: true,
   }
 
@@ -73,6 +63,7 @@ export default class StoreAsset extends Component {
     }).then((res) => {
       let data = {}
       if(res == '203') {
+        let _key;
         switch(key) {
           case 'storeStatistics':
             _key = 'storeStatisticsPower'
@@ -145,38 +136,34 @@ export default class StoreAsset extends Component {
       {
         title: '收入金额',
         value: assetBill.amount,
-        img: assetBill1Png
+        hasIcon: true
       },{
         title: '成交单数',
         value: assetBill.number,
-        img: assetBill2Png
       },{
-        title: '退款金额(元)',
+        title: '退款金额',
         value: assetBill.refund_amount,
-        img: assetBill3Png
+        hasIcon: true
       },{
         title: '退款单数',
         value: assetBill.refund_number,
-        img: assetBill4Png
       }
     ]
     const marketingData = [
       {
-        title: '券总抵扣(元)',
+        title: '券总抵扣',
         value: marketingBill.coupon_amount,
-        img: marketingBill1Png
+        hasIcon: true
       },{
         title: '优惠券总数',
         value: marketingBill.coupon_number,
-        img: marketingBill2Png
       },{
-        title: '满单金额(元)',
+        title: '满单金额',
         value: marketingBill.send_goods_amount,
-        img: marketingBill3Png
+        hasIcon: true
       },{
         title: '满单总数',
         value: marketingBill.send_goods_number,
-        img: marketingBill4Png
       }
     ]
     const contentData = current == 0 ? assetData : marketingData
@@ -185,25 +172,36 @@ export default class StoreAsset extends Component {
       <View className='store-asset-page'>
         <View className='page-header'>
           <View className='header-title'>
-            <View className='switch-text' onClick={() => {this.changePop()}}>{baseTime == 1 ? '日数据' : (baseTime == 2 ? '周数据' : '月数据')}</View>
-            <Image className='switch-icon' onClick={() => {this.changePop()}} src={morePng} />
+            <View className='switch-box' onClick={() => {this.changePop()}}>
+              <View className='switch-text'>{baseTime == 1 ? '按日' : (baseTime == 2 ? '按周' : '按月')}</View>
+              <Image className='switch-icon' src={morePng} />
+            </View>
             <View className='header-empty'></View>
-            <View className='data-time'>{storeStatisticsPower ? storeStatistics.time : ''}</View>
+            <View className='data-time'>{storeStatistics.time}</View>
           </View>
-          <View className='header-income'>
-            <View className='item-label income-label'>门店总收入(元)</View>
-            <View className='income-num'>{storeStatisticsPower ? storeStatistics.pay_amount : '暂无权限'}</View>
-          </View>
-          <View className='header-dataList'>
-            <View className='data-item'>
-              <View className='item-label'>优惠券总抵扣(元)</View>
-              <View className='item-num'>{storeStatisticsPower ? storeStatistics.coupon_amount : '暂无权限'}</View>
-            </View>
-            <View className='data-item'>
-              <View className='item-label'>门店总退款(元)</View>
-              <View className='item-num'>{storeStatisticsPower ? storeStatistics.refund_amount : '暂无权限'}</View>
-            </View>
-          </View>
+          {
+            storeStatisticsPower 
+            ?  <View className='hearch-content'>
+                  <View className='header-income'>
+                    <View className='item-label income-label'>门店总收入</View>
+                    <View className='income-num'><Text class="item-icon">￥</Text>{storeStatistics.pay_amount}</View>
+                  </View>
+                  <View className='header-dataList'>
+                    <View className='data-item'>
+                      <View className='item-label'>优惠券总抵扣</View>
+                      <View className='item-num'><Text class="item-icon">￥</Text>{storeStatistics.coupon_amount}</View>
+                    </View>
+                    <View className='data-item'>
+                      <View className='item-label'>门店总退款</View>
+                      <View className='item-num'><Text class="item-icon">￥</Text>{storeStatistics.refund_amount}</View>
+                    </View>
+                  </View>
+                </View>
+            :  <View className='noPower'>
+                <Image className='noPower-img' src={noPowerPng} />
+                <View className='noPower-text'>——  暂无权限  ——</View>
+              </View>
+          }
         </View>
         <View className='page-content'>
           <View className='content-switch'>
@@ -219,13 +217,17 @@ export default class StoreAsset extends Component {
                     <View className='apps-title'>{current == 0 ? '资产对账单' : '营销对账单'}</View>
                     {
                       (current == 0 ? assetBillPower : marketingBillPower) ?
-                      <View>
+                      <View className='list'>
                         {
                           contentData.map((app, index) => (
                             <View className='app-item' key={index}>
-                              <Image className='item-icon' src={app.img} />
+                              <View className='item-num'>
+                                {
+                                  app.hasIcon && <Text class="item-icon">￥</Text>
+                                }
+                                {app.value}
+                              </View>
                               <View className='item-text'>{app.title}</View>
-                              <View className='item-num'>{app.value}</View>
                             </View>
                           ))
                         }

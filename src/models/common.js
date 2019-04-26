@@ -5,7 +5,7 @@ export default {
     namespace: 'common',
     state: {
 			storeData: {
-				storeList: [],
+				storeList: null,
 				nickname: ''
 			}
     },

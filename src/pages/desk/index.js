@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtGrid } from "taro-ui"
+import { WebView } from '@tarojs/components'
+import bg from '../../assets/images/deskBg.png'
 import './index.less'
 
 export default class Desk extends Component {
@@ -42,10 +42,11 @@ export default class Desk extends Component {
     ]
     return (
       <View className='desk-page'>
-        <View className='desk-title'>
+        <Image className='page-bg' src={bg} />
+        {/* <View className='desk-title'>
           <View className='title-icon'></View>
           <View className='title-type'>待使用设备</View>
-        </View>
+        </View> */}
         <View className='app-list'>
           {
             list.map((item, index) => (
