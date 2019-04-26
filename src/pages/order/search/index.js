@@ -215,13 +215,13 @@ export default class orderSearch extends Component {
                             </View>
                             <View className='item-labels'>
                               {
-                                order.o_send_goods_id > 0 ? <View className='item-label yellow'>满单</View> : ''
+                                order.o_send_goods_id > 0 && <View className='item-label yellow'>满单</View>
                               }
                               {
-                                order.o_order_type == 2 ? <View className='item-label blue'>预约</View> : ''
+                                order.o_order_type == 2 && <View className='item-label blue'>预约</View>
                               }
                               {
-                                order.o_take_type == 2 ? <View className='item-label green'>打包</View> : ''
+                                order.o_take_type == 2 && <View className='item-label green'>打包</View>
                               }
                             </View>
                             <View className='item-goods'>
@@ -245,14 +245,14 @@ export default class orderSearch extends Component {
                             ? '' : <View className='underLine'></View>
                           }
                           {
-                            order.o_remark ?  <View className='item-remark'>
+                            order.o_remark && <View className='item-remark'>
                                                 <View className='remark-left'>备注：</View>
                                                 <View className='remark-right'>{order.o_remark}</View>	
-                                              </View> : ''
+                                              </View>
                           }
                           {
                             order.o_order_status == 1 
-                            ? <View className='item-option item-status1'>
+                            && <View className='item-option item-status1'>
                                 <View className='button-group'>
                                   <View className='flex1'></View>
                                   <View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
@@ -263,11 +263,10 @@ export default class orderSearch extends Component {
                                   <View className='warn-text'>{order.remind}</View>
                                 </View>
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 2 
-                            ? <View className='item-option item-status2'>
+                            && <View className='item-option item-status2'>
                                 <View className='button-group'>
                                   <View className='flex1'></View>
                                   <View className='item-button close-button' onClick={() => { this.linkToClose(order) }}>取消接单</View>
@@ -279,11 +278,10 @@ export default class orderSearch extends Component {
                                   <View className='warn-text'>{order.remind}</View>
                                 </View>
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 3 || order.o_order_status == 32
-                            ? <View className='item-option item-status3'>
+                            && <View className='item-option item-status3'>
                                 <View className='button-group'>
                                   <View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
                                   <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'makeComplete') }}>制作完成</View>
@@ -294,11 +292,10 @@ export default class orderSearch extends Component {
                                   <View className='warn-text'>{order.remind}</View>
                                 </View>
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 31
-                            ? <View className='item-option item-status31'>
+                            && <View className='item-option item-status31'>
                                 <View className='button-group'>
                                   <View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
                                   <View className='item-button ok-button'  onClick={() => { this.fetchOption(order, 'makeStart') }}>开始制作</View>
@@ -309,24 +306,22 @@ export default class orderSearch extends Component {
                                   <View className='warn-text'>{order.remind}</View>
                                 </View>
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 4
-                            ? <View className='item-option item-status4'>
+                            && <View className='item-option item-status4'>
                                 <View className='button-group'>
                                   <View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
                                   <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'takeOrder') }}>确认取餐</View>
                                 </View>
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 41
-                            ? <View className='item-option item-status41'>
+                            && <View className='item-option item-status41'>
                                 {
                                   (order.take_status == 0 && order.take_id == 0) || order.take_status == 5
-                                  ? <View className='button-group'>
+                                  && <View className='button-group'>
                                       <View className='flex1'></View>
                                       <View className='reset-take'>
                                         {
@@ -342,24 +337,31 @@ export default class orderSearch extends Component {
                                       </View>
                                       <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
                                     </View>
-                                  : ''
                                 }
                                 {
                                   order.take_id == 1 && order.take_status != 5
-                                  ? <View className='button-group'>
+                                  && <View className='button-group'>
                                       <View className='flex1'></View>
                                       <View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>更换</View>
                                       <View className='reset-default'>商家配送</View>
                                       <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
                                     </View>
-                                  : ''
+                                }
+                                {
+                                  order.take_id == 2 && order.take_status != 5
+                                  && <View className='button-group'>
+                                      <View className='flex1'></View>
+                                      <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
+                                        <View className='reset-text'>{order.take_remark}</View>
+                                        <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+                                      </View>
+                                    </View>
                                 }
                               </View>
-                            : ''
                           }
                           {
                             order.o_order_status == 42
-                            ? <View className='item-option item-status4'>
+                            && <View className='item-option item-status4'>
                                 <View className='button-group'>
                                   <View className='flex1'></View>
                                   {
@@ -372,7 +374,6 @@ export default class orderSearch extends Component {
                                   }
                                 </View>
                               </View>
-                            : ''
                           }
                         </View>
                       ))

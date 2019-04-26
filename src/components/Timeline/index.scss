@@ -111,11 +111,14 @@
   }
 }
 .at-timelineitem {
-  height: 135rpx;
+  height: 135px;
   &:last-child {
     height: 56px;
     .at-timelineitem__tail {
       display: none;
     }
+  }
+  &:first-child {
+    height: 135px;
   }
 }

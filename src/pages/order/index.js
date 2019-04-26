@@ -25,7 +25,7 @@ export default class Order extends Component {
 
   config = {
 		navigationBarTitleText: '订单',
-		disableScroll: true
+		// disableScroll: true
   }
 
   state = {
@@ -89,6 +89,10 @@ export default class Order extends Component {
   }
 
   componentDidShow () {
+		this.init()
+	}
+
+	init = () => {
 		this.setState({
 			can_fetch: true,
 			page: 1,
@@ -98,6 +102,11 @@ export default class Order extends Component {
 			this.fetchOrderList()
 		})
 	}
+
+	onPullDownRefresh () {
+    Taro.stopPullDownRefresh()
+    this.init()
+  }
 
   linkToSearch = () => {
     Taro.navigateTo({ 
@@ -133,14 +142,7 @@ export default class Order extends Component {
   onClose = () => {
 		const { order_type, take_type, old_order, old_take } = this.state
 		if( order_type != old_order || take_type != old_take ) {
-			this.setState({
-				can_fetch: true,
-				loading: true,
-				page: 1,
-				orderList: null
-			}, () => {
-				this.fetchOrderList()
-			})
+			this.init()
 		}
 		this.setState({
 			show: false,
@@ -242,7 +244,6 @@ export default class Order extends Component {
   render () {
     const { power, current, orderList, loading, take_type, take_info, takeLog, order_type, showTakeDetail, show, showCause, orderData, showSelect } = this.state 
 		const selectList = ['全部', '堂食单', '外卖单']
-		console.log(loading)
 		const list = orderList && orderList.map((order, i) => (
 			<View key={i} className='order-item'>
 				<View onClick={() => {this.linkToDetail(order)}}>
@@ -371,7 +372,7 @@ export default class Order extends Component {
 												order.take_status == 0
 												? <View className='reset-item reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>请选择配送方式</View>
 												: <View className='reset'>
-															{
+														{
 															order.take_id == 2 &&  <Image className='reset-icon' src={markPng} onClick={() => {this.setState({ showCause: true, orderData: order })}} />
 														}
 														<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>配送被取消，请重新选择</View>
@@ -389,6 +390,17 @@ export default class Order extends Component {
 										<View className='reset-text' onClick={() => {this.setState({ showSelect: true, orderData: order })}}>更换</View>
 										<View className='reset-default'>商家配送</View>
 										<View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
+									</View>
+								: ''
+							}
+							{
+								order.take_id == 2 && order.take_status != 5
+								? <View className='button-group'>
+										<View className='flex1'></View>
+										<View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
+											<View className='reset-text'>{order.take_remark}</View>
+											<AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
+										</View>
 									</View>
 								: ''
 							}

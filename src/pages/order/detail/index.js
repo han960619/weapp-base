@@ -62,7 +62,7 @@ export default class orderDetail extends Component {
           order: res,
           take_info: res.take_info
         })
-        if(res.o_order_status == 42 && res.take_id == 2) {
+        if(res.take_id == 2 && (res.o_order_status == 42 || res.o_order_status == 41)) {
           this.fetchDadaCancel()
         }
       }
@@ -237,7 +237,7 @@ export default class orderDetail extends Component {
                   </View>
             }
             {
-              order.o_order_status == 41 && order.take_id == 2
+              order.o_order_status == 41 && order.take_status != 5 && order.take_id == 2
               &&  <View className='warn-text flex1'>
                     <View className='reset-text' onClick={() => {this.fetchTakeLog()}}>{order.status_remark}</View>
                     <AtIcon value='chevron-right' class='chevron-right' size='20' color='#fff'></AtIcon>
@@ -358,9 +358,18 @@ export default class orderDetail extends Component {
               <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
               {
-                (order.take_status != 0 && order.take_status	!= 5)
-                ? <View className='item-button default-button'>确认发货</View>
-                : <View className='item-button ok-button' onClick={() => { this.fetchOption('deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
+                order.take_id == 1 && order.take_status != 5
+                && <View className='item-button ok-button' onClick={() => { this.fetchOption('deliverTake', { type: 1, select: 2 }) }}>确认发货</View>
+              }
+              {
+                order.take_id == 2 && order.take_status != 5
+                && <Picker mode='selector' range={cancelList} value={current} rangeKey={'content'} onChange={(e) => { this.selectCancel(e.detail.value)}}>
+                    <View className='item-button ok-button'>取消配送</View>
+                  </Picker>
+              }
+              {
+                (order.take_status == 0 && order.take_id == 0) || order.take_status == 5
+                && <View className='item-button default-button'>确认发货</View>
               }
             </View>
           }
@@ -444,11 +453,11 @@ export default class orderDetail extends Component {
         <AtFloatLayout title='配送取消原因' isOpened={showCause} onClose={() => {this.setState({ showCause: false })}}>
 					<View className='cause-row'>
 						<View className='row-label'>骑手</View>
-						<View className='row-text'>{orderData.take_transporter_name}/{orderData.take_transporter_phone}</View>
+						<View className='row-text'>{order.take_transporter_name ? order.take_transporter_name + ' / ' + order.take_transporter_phone : '骑手未接单'}</View>
 					</View>
 					<View className='cause-row'>
 						<View className='row-label'>原因</View>
-						<View className='row-text'>{orderData.take_cancel_remark}</View>
+						<View className='row-text'>{order.status_remark}</View>
 					</View>
 				</AtFloatLayout>
 				<AtFloatLayout title='选择配送方式' isOpened={showSelect} onClose={() => {this.setState({ showSelect: false })}}>
