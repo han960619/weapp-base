@@ -91,7 +91,7 @@ export default class OrderCancel extends Component {
           </View>
           <View className='refund-wrap'>
             <View className='tips'>退款金额</View>
-            <Input value={amount} onChange={(e) => { this.bindKeyInput(e, 'amount') }} className='txt' placeholder='请输入退款金额' placeholderClass='inp' />
+            <Input value={amount} type='digit' onChange={(e) => { this.bindKeyInput(e, 'amount') }} className='txt' placeholder='请输入退款金额' placeholderClass='inp' />
           </View>
           <View className='refund-wrap'>
             <View className='tips'>退款方式</View>

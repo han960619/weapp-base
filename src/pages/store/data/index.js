@@ -199,7 +199,7 @@ export default class StoreData extends Component {
                       ((current == 0 && dashboardPower) || (current == 1 && goodsPower)) ? 
                       <View className='main-content'>
                         <View className='main-left'>
-                          <View className='main-label left-label'>商品总销售额(元)</View>
+                          <View className='main-label left-label'>{current == 0 ? '销售金额' : '商品总销售'}</View>
                           <View className='main-num'><Text class="main-icon">￥</Text>{pageData.payMoney}</View>
                         </View>
                         <View className='main-right'>

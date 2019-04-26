@@ -387,7 +387,7 @@ export default class orderSearch extends Component {
 				<AtFloatLayout title='配送取消原因' isOpened={showCause} onClose={() => {this.setState({ showCause: false })}}>
 					<View className='cause-row'>
 						<View className='row-label'>骑手</View>
-						<View className='row-text'>{orderData.take_transporter_name}/{orderData.take_transporter_phone}</View>
+						<View className='row-text'>{order.take_transporter_name ? order.take_transporter_name + ' / ' + order.take_transporter_phone : '骑手未接单'}</View>
 					</View>
 					<View className='cause-row'>
 						<View className='row-label'>原因</View>

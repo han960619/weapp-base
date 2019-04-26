@@ -16,7 +16,7 @@ export default class SearchGoods extends Component {
   }
 
   state = {
-    searchGoodsList: [],
+    searchGoodsList: null,
     keyword: ''
   }
 
@@ -42,7 +42,7 @@ export default class SearchGoods extends Component {
       })
     }else {
       this.setState({
-        searchGoodsList: [],
+        searchGoodsList: null,
         keyword: ''
       })
     }
@@ -66,18 +66,23 @@ export default class SearchGoods extends Component {
           />
         </View>
         {
-          searchGoodsList && searchGoodsList.length > 0
-          ? <View className='goods-list'>
+          searchGoodsList 
+          && <View className='goods-list'>
               {
-                searchGoodsList.map((good, index) => {
-                  return (
-                    <GoodsItem key={index} onFetchGoods={() => {this.handleChange(keyword)}} good={good}></GoodsItem>
-                  )
-                })
+                searchGoodsList && searchGoodsList.length > 0
+                ? <View className='goods-list'>
+                    {
+                      searchGoodsList.map((good, index) => {
+                        return (
+                          <GoodsItem key={index} onFetchGoods={() => {this.handleChange(keyword)}} good={good}></GoodsItem>
+                        )
+                      })
+                    }
+                  </View>
+                : <View className='goods-list'>
+                    <EmptyPage image={noListPng} tip='——  找不到啦  ——' />
+                  </View>
               }
-            </View>
-          : <View className='goods-list'>
-              <EmptyPage image={noListPng} tip='——  找不到啦  ——' />
             </View>
         }
         

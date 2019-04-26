@@ -58,7 +58,6 @@ export default function request(url, options = { method: 'GET', data: {} }, need
       } else {
         Taro.showToast({
           title: data.message,
-          image: toastPng,
           mask: true,
           duration: 2000
         })
