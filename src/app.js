@@ -53,8 +53,8 @@ class App extends Component {
       backgroundColor: '#fff',
       selectedColor: '#FF8F1F',
       list: [
-        { pagePath: 'pages/order/index', iconPath: 'assets/images/desk.png', selectedIconPath: 'assets/images/desk1.png', text: '订单' },
-        { pagePath: 'pages/desk/index', iconPath: 'assets/images/order.png', selectedIconPath: 'assets/images/order1.png', text: '工作台' },
+        { pagePath: 'pages/order/index', iconPath: 'assets/images/order.png', selectedIconPath: 'assets/images/order1.png', text: '订单' },
+        { pagePath: 'pages/desk/index', iconPath: 'assets/images/desk.png', selectedIconPath: 'assets/images/desk1.png', text: '工作台' },
         { pagePath: 'pages/store/index', iconPath: 'assets/images/store.png', selectedIconPath: 'assets/images/store1.png', text: '门店' }
       ]
     }
@@ -64,7 +64,7 @@ class App extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: 'pages/storeList/index'
+        url: '/pages/storeList/index'
       })
     }else {
       Taro.redirectTo({

@@ -118,21 +118,25 @@ export default class StoreData extends Component {
       {
         title: '客户订单数',
         value: dashboardData.total_number,
+        unit: '笔'
       },{
         title: '购买客户数',
         value: dashboardData.user_order_number,
+        unit: '位'
       },{
         title: '新增客户数',
         value: dashboardData.user_new_number,
+        unit: '位'
       },{
         title: '退款订单数',
         value: dashboardData.refund_number,
+        unit: '笔'
       },{
-        title: '客单价(元)',
+        title: '客单价',
         hasIcon: true,
         value: dashboardData.user_unit_price,
       },{
-        title: '退款金额(元)',
+        title: '退款金额',
         hasIcon: true,
         value: dashboardData.refund_amount,
       }
@@ -141,11 +145,13 @@ export default class StoreData extends Component {
       {
         title: '商品总销量',
         value: goodsData.total_sales_number,
+        unit: '件'
       },{
         title: '商品退款数',
         value: goodsData.total_refund_number,
+        unit: '件'
       },{
-        title: '退款金额(元)',
+        title: '退款金额',
         hasIcon: true,
         value: goodsData.total_refund_amount,
       }
@@ -238,6 +244,9 @@ export default class StoreData extends Component {
                                       app.hasIcon && <Text class="item-icon">￥</Text>
                                     }
                                     {app.value}
+                                    {
+                                      app.unit && <Text class="item-unit">{app.unit}</Text>
+                                    }
                                   </View>
                                   <View className='item-text'>{app.title}</View>
                                 </View>

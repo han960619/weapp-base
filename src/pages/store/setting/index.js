@@ -58,8 +58,8 @@ export default class StoreSetting extends Component {
     }).then((res) => {
       if(res != '203') {
         Taro.showToast({
-          title: '切换成功',
-          icon: 'success',
+          title: status == 1 ? '好好休息一下吧' : '准备开门营业吧',
+          icon: 'none',
           mask: true,
         }).then(() => {
           this.setState({
@@ -71,8 +71,14 @@ export default class StoreSetting extends Component {
   }
   
   signOut = () => {
-    Taro.clearStorage()
-    Taro.reLaunch({ url: '/pages/login/index' })
+    Taro.showModal({
+      content: '退出后，你将无法进行相关操作',
+    }).then(res => {
+      if(res.confirm) {
+        Taro.clearStorage()
+        Taro.reLaunch({ url: '/pages/login/index' })
+      }
+    })
   }
 
   render () {

@@ -140,6 +140,7 @@ export default class StoreAsset extends Component {
       },{
         title: '成交单数',
         value: assetBill.number,
+        unit: '笔'
       },{
         title: '退款金额',
         value: assetBill.refund_amount,
@@ -147,6 +148,7 @@ export default class StoreAsset extends Component {
       },{
         title: '退款单数',
         value: assetBill.refund_number,
+        unit: '笔'
       }
     ]
     const marketingData = [
@@ -157,6 +159,7 @@ export default class StoreAsset extends Component {
       },{
         title: '优惠券总数',
         value: marketingBill.coupon_number,
+        unit: '张'
       },{
         title: '满单金额',
         value: marketingBill.send_goods_amount,
@@ -164,6 +167,7 @@ export default class StoreAsset extends Component {
       },{
         title: '满单总数',
         value: marketingBill.send_goods_number,
+        unit: '笔'
       }
     ]
     const contentData = current == 0 ? assetData : marketingData
@@ -226,6 +230,9 @@ export default class StoreAsset extends Component {
                                   app.hasIcon && <Text class="item-icon">￥</Text>
                                 }
                                 {app.value}
+                                {
+                                  app.unit && <Text class="item-unit">{app.unit}</Text>
+                                }
                               </View>
                               <View className='item-text'>{app.title}</View>
                             </View>

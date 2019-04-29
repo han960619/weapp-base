@@ -17,7 +17,7 @@ import noPowerPng from '../../assets/images/noPower.png'
 import storeBg1Png from '../../assets/images/storeBg1.png'
 import storeBg2Png from '../../assets/images/storeBg2.png'
 
-@connect(({desk, store}) => ({...desk, ...store}))
+@connect(({store}) => ({...store}))
 export default class Store extends Component {
 
   config = {
@@ -39,32 +39,47 @@ export default class Store extends Component {
     refund_amount: 0,
     power: true,
     transWarn: false,
-    showWarn: false
+    showWarn: false,
+  }
+
+  componentWillMount() {
+    const { storeData } = this.props
+    this.init(storeData)
   }
 
   componentDidShow () {
+    if(!this.state.flash) {
+      this.setState({
+        flash: true
+      })
+      return
+    }
     this.props.dispatch({
       type: 'store/getStoreIndex',
       payload: {
         store_id: Taro.getStorageSync('storeId')
       }
     }).then(res => {
-      if(res != '203') {
-        this.setState({
-          ...res,
-          showWarn: res.is_connect_printer != 1,
-          power: true
-        })
-      }else {
-        Taro.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: '#ffffff'
-        })
-        this.setState({
-          power: false
-        })
-      }
+      this.init(res)
     })
+  }
+
+  init = res => {
+    if(res != '203') {
+      this.setState({
+        ...res,
+        showWarn: res.is_connect_printer != 1,
+        power: true
+      })
+    }else {
+      Taro.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff'
+      })
+      this.setState({
+        power: false
+      })
+    }
   }
 
   linkTo = url => {
@@ -72,7 +87,7 @@ export default class Store extends Component {
   }
 
   changeStatus = () => {
-    const { s_business } = this.state
+    const { s_business } = this.props.storeData
     Taro.showModal({
       content: `是否修改营业状态为${s_business == 1 ? '休息中' : '营业中'}`,
     }).then(res => {
@@ -86,8 +101,8 @@ export default class Store extends Component {
         }).then((res) => {
           if(res != '203') {
             Taro.showToast({
-              title: '切换成功',
-              icon: 'success',
+              title: s_business == 1 ? '好好休息一下吧' : '准备开门营业吧',
+              icon: 'none',
               mask: true,
             }).then(() => {
               this.setState({
@@ -160,8 +175,8 @@ export default class Store extends Component {
         <View className='page-header'>
           <Image className='header-image' src={s_business == 1 ? storeBg2Png : storeBg1Png} />
           <View className='header-title'>
-            <Image className='title-logo' src={store.b_logo} />
-            <View className='title-name'>{store.s_title}</View>
+            <Image className='title-logo' onClick={() => {this.linkTo(`/pages/store/setting/index?status=${s_business}`)}} src={store.b_logo} />
+            <View className='title-name' onClick={() => {this.linkTo(`/pages/store/setting/index?status=${s_business}`)}}>{store.s_title}</View>
             <View className='title-switch'>
               <View className='switch-text' onClick={() => {this.changeStatus()}}>{s_business == 1 ? '营业中' : '休息中'}</View>
               <Image className='switch-icon' src={switchPng} />

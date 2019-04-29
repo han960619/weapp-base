@@ -20,6 +20,16 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
+    const token = Taro.getStorageSync('token')
+    if(token) {
+      Taro.reLaunch({
+        url: '/pages/storeList/index'
+      })
+    }else {
+      Taro.redirectTo({
+        url: '/pages/login/index'
+      })
+    }
   }
 
   componentWillUnmount () { }
