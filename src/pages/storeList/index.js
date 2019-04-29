@@ -37,7 +37,7 @@ export default class StoreList extends Component {
     let hour = new Date().getHours()
     if (hour >=6 && hour < 10) {
       return '早上好，越努力越幸运哦！';
-    } else if (hour > 10 && hour < 20) {
+    } else if (hour >= 10 && hour < 20) {
       return '机会总是倾向于有准备的人';
     } else if (hour >=20 || hour < 6) {
       return '夜里凉，请注意保暖'

@@ -60,8 +60,17 @@ export default class Login extends Component {
       payload
     }).then(res => {
       if(res) {
-        Taro.reLaunch({
-          url: '/pages/storeList/index'
+        Taro.showToast({
+          title: '登录成功',
+          icon: 'success',
+          mask: true,
+          duration: 1500
+        }).then(() => {
+          setTimeout(() => {
+            Taro.navigateTo({
+              url: '/pages/storeList/index'
+            })
+          }, 1500)
         })
       }
     })
