@@ -25,7 +25,7 @@ export default class Order extends Component {
 
   config = {
 		navigationBarTitleText: '订单',
-		// disableScroll: true
+		enablePullDownRefresh: true
   }
 
   state = {
@@ -104,8 +104,14 @@ export default class Order extends Component {
 	}
 
 	onPullDownRefresh () {
+		Taro.setBackgroundTextStyle({
+			textStyle: 'dark'
+			})
+		Taro.setBackgroundColor({
+			backgroundColorTop: '#ffffff'
+		})
+		this.init()
     Taro.stopPullDownRefresh()
-    this.init()
   }
 
   linkToSearch = () => {
@@ -319,7 +325,7 @@ export default class Order extends Component {
 						</View>
 				}
 				{
-					order.o_order_status == 3 || order.o_order_status == 32
+					(order.o_order_status == 3 || order.o_order_status == 32)
 					&& <View className='item-option item-status3'>
 							<View className='button-group'>
 								<View className='item-number flex1'>取餐号：<Text className='color-number'>{order.o_take_no}</Text></View>
@@ -359,7 +365,7 @@ export default class Order extends Component {
 					order.o_order_status == 41
 					&& <View className='item-option item-status41'>
 							{
-								(order.take_status == 0 && order.take_id == 0) || order.take_status == 5
+								((order.take_status == 0 && order.take_id == 0) || order.take_status == 5)
 								&& <View className='button-group'>
 										<View className='flex1'></View>
 										<View className='reset-take'>
@@ -403,6 +409,8 @@ export default class Order extends Component {
 					&& <View className='item-option item-status4'>
 							<View className='button-group'>
 								<View className='flex1'></View>
+								<View className='reset-default'>当前:</View>
+								<View className='reset-default'>商家配送</View>
 								{
 									order.take_id == 1
 									? <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
@@ -424,7 +432,7 @@ export default class Order extends Component {
               <View className='page-header'>
                 <View className='search-input' onClick={() => {this.linkToSearch()}}>
                   <AtIcon value='search' size='18' color='#999999'></AtIcon>
-                  <View className='search-text'>搜索</View>
+                  <View className='search-text'>搜索姓名/手机号/订单号</View>
                 </View>
                 <View className='filter-panel' onClick={() => {this.onShow()}}>
                   <View className='filter-text'>筛选</View>
@@ -496,12 +504,13 @@ export default class Order extends Component {
 								}
 							</View>
 						</View>
+						<View className='select-button' onClick={() => { this.setState({show:false}) }}>完成</View>
 					</View>
         </Drawer>
 				<AtFloatLayout title='配送取消原因' isOpened={showCause} onClose={() => {this.setState({ showCause: false })}}>
 					<View className='cause-row'>
 						<View className='row-label'>骑手</View>
-						<View className='row-text'>{order.take_transporter_name ? order.take_transporter_name + ' / ' + order.take_transporter_phone : '骑手未接单'}</View>
+						<View className='row-text'>{orderData.take_transporter_name ? orderData.take_transporter_name + ' / ' + orderData.take_transporter_phone : '骑手未接单'}</View>
 					</View>
 					<View className='cause-row'>
 						<View className='row-label'>原因</View>

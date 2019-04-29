@@ -1,12 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
-import { WebView } from '@tarojs/components'
 import bg from '../../assets/images/deskBg.png'
 import './index.less'
 
 export default class Desk extends Component {
 
   config = {
-    navigationBarTitleText: '工作台'
+    navigationBarTitleText: '工作台',
+    disableScroll: true,
   }
 
   linkTo = (e) => {

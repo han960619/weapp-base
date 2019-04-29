@@ -25,7 +25,7 @@ class Drawer extends Component {
   static defaultProps = {
 		show: false,
 		mask: true,
-		width: '230px',
+		width: '218px',
 		right: false,
 		items: [],
 		onItemClick: () => {},

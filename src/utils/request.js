@@ -31,27 +31,28 @@ export default function request(url, options = { method: 'GET', data: {} }, need
           url: '/pages/login/index'
         })
       } else if(+data.code === 202) { 
+        console.log(1)
         Taro.navigateTo({ url: '/pages/noUser/index' })
+        return '202'
       } else if(+data.code === 203) { 
         //替换页面还是toast提示
         if(noPower == 2) {
           Taro.showToast({
-            title: '用户无权限',
-            image: toastPng,
+            title: '抱歉，您暂无相关权限',
+            icon: 'none',
             mask: true,
             duration: 2000
           })
         }else if(noPower == 3){
           Taro.showToast({
-            title: '用户无权限',
+            title: '抱歉，您暂无相关权限',
+            icon: 'none',
             mask: true,
             duration: 2000
           }).then(() =>{
-            if(needBack) {
-              setTimeout(() => {
-                Taro.navigateBack()
-              }, 2000)
-            }
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 2000)
           })
         }
         return '203'
@@ -59,6 +60,7 @@ export default function request(url, options = { method: 'GET', data: {} }, need
         Taro.showToast({
           title: data.message,
           mask: true,
+          icon: 'none',
           duration: 2000
         })
         return

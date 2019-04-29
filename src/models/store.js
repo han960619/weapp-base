@@ -3,6 +3,7 @@ import { fetchGoods, changeStatus, fetchStoreStatus, getStoreIndex, getStoreData
 export default {
 	namespace: 'store',
 	state: {
+		storeData: {}
 	},
 
 	effects: {
@@ -16,7 +17,12 @@ export default {
 			return yield call(changeStatus, payload);
 		},
 		* getStoreIndex({payload}, {put, call}) {
-			return yield call(getStoreIndex, payload);
+			const response = yield call(getStoreIndex, payload);
+			yield put({
+				type: 'saveStoreData',
+				payload: response,
+			});
+			return response
 		},
 		* getStoreData({payload}, {put, call}) {
 			return yield call(getStoreData, payload);
@@ -38,6 +44,12 @@ export default {
 		},
 	},
 	reducers: {
+		saveStoreData(state, action) {
+			return {
+				...state,
+				storeData: action.payload,
+			};
+		},
 	}
 }
   

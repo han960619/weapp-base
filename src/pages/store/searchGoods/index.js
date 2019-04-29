@@ -67,7 +67,7 @@ export default class SearchGoods extends Component {
         </View>
         {
           searchGoodsList 
-          && <View className='goods-list'>
+          && <View>
               {
                 searchGoodsList && searchGoodsList.length > 0
                 ? <View className='goods-list'>

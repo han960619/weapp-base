@@ -37,6 +37,7 @@ export default {
 					type: 'saveStoreData',
 					payload: response,
 				});
+				return response
 			}
     },
     reducers: {

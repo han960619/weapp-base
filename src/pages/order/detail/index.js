@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtIcon, AtFloatLayout } from 'taro-ui'
+import { AtIcon, AtFloatLayout, AtActivityIndicator } from 'taro-ui'
 import markPng from '../../../assets/images/mark2.png'
 import clockPng from '../../../assets/images/orderClock.png'
 import take_dadaPng from '../../../assets/images/take_dada.png'
@@ -19,7 +19,8 @@ import Timeline from '../../../components/Timeline'
 export default class orderDetail extends Component {
 
   config = {
-    navigationBarTitleText: '订单详情'
+    navigationBarTitleText: '订单详情',
+    enablePullDownRefresh: true
   }
 
   state = {
@@ -33,7 +34,8 @@ export default class orderDetail extends Component {
     order: {
       o_order_status: 1
     },
-    take_info: []
+    take_info: [],
+    loading: true
   }
 
   componentWillMount () {
@@ -44,7 +46,21 @@ export default class orderDetail extends Component {
   }
 
   componentDidShow () {
+    this.setState({
+      loading: true
+    })
     this.fetchOrderDetail()
+  }
+
+  onPullDownRefresh () {
+		Taro.setBackgroundTextStyle({
+			textStyle: 'dark'
+			})
+		Taro.setBackgroundColor({
+			backgroundColorTop: '#ffffff'
+    })
+    this.fetchOrderDetail()
+    Taro.stopPullDownRefresh()
   }
 
   fetchOrderDetail = () => {
@@ -60,7 +76,8 @@ export default class orderDetail extends Component {
       if(res != '203' && res) {
         this.setState({
           order: res,
-          take_info: res.take_info
+          take_info: res.take_info,
+          loading: false
         })
         if(res.take_id == 2 && (res.o_order_status == 42 || res.o_order_status == 41)) {
           this.fetchDadaCancel()
@@ -73,7 +90,8 @@ export default class orderDetail extends Component {
 		const { take_info, order } = this.state
 		if(take_info.length > index) {
 			this.setState({
-				showSelect: false
+        showSelect: false,
+        loading: true
 			})
 			if( index == 0 && order.take_id == 1 && order.take_status == 0) {
 				return 
@@ -92,9 +110,9 @@ export default class orderDetail extends Component {
 
   linkToRefund = () => {
     const { order } = this.state
-    if(order.o_order_status == 42 && order.take_id == 2) {
+    if((order.o_order_status == 42 || order.o_order_status == 41) && order.take_id == 2 && order.take_status != 5 && order.take_status != 0) {
       Taro.showToast({
-        title: '请先取消正在进行的第三方配送',
+        title: '请先取消当前配送',
         icon: 'none',
         mask: true,
       })
@@ -118,7 +136,6 @@ export default class orderDetail extends Component {
 				...data
 			}
     }
-    console.log(1)
 		this.props.dispatch({
       type: `order/${type}`,
       payload
@@ -192,16 +209,20 @@ export default class orderDetail extends Component {
 
   selectCancel = (value) => {
     const { cancelList } = this.state
+    this.setState({
+      loading: true
+    })
     this.fetchOption('cancelOrderTake', { type: 2, code: cancelList[+value].id, remark: cancelList[+value].content })
   }
 
   render () {
-    const { showSelect, showCause, showTakeDetail, takeLog, current, cancelList, order, take_info } = this.state;
+    const { showSelect, showCause, showTakeDetail, loading, takeLog, current, cancelList, order, take_info } = this.state;
     const hasClock = [1, 2, 3, 31, 32].indexOf(order.o_order_status) > 0
     return (
+      !loading ? 
       <View className='order-detail-page'>
         <View className='page-header'>
-          <Image className='header-icon' src={orderStatusImg[order.o_order_status]} />
+          <Image className='header-icon' mode='widthFix' src={orderStatusImg[order.o_order_status]} />
           <View className='header-title'>
             <View className='title-status flex1'>{orderStatus[order.o_order_status]}
             </View>
@@ -259,10 +280,10 @@ export default class orderDetail extends Component {
             }
             {
               (order.o_order_status != 41 && order.o_order_status != 42) 
-              &&  <View className='warn-text flex1'>{order.status_remark ? order.status_remark : ''}</View>
+              &&  <View className='warn-text flex1'>{order.status_remark ? order.status_remark : order.o_refund_remark}</View>
             }
             {
-              (order.o_order_status == 1 && order.o_take_type != 3) && order.o_take_no
+              (order.o_order_status != 1 && order.o_take_type != 3) && order.o_take_no
               && <View className='item-number'>{order.o_take_no ? `取餐号:${order.o_take_no}` : ''}</View>
             }
           </View>
@@ -282,7 +303,7 @@ export default class orderDetail extends Component {
                       <View className='item-num flex1'>x{good.od_num}</View>
                     </View>
                     <View className='item-norm'>{good.od_norm_str ? `(${good.od_norm_str})` : ''}</View>
-                    <View className='item-money'><Text>&yen;</Text>{good.od_original_price}</View>
+                    <View className='item-money'><Text>&yen;</Text>{good.od_price}</View>
                   </View>
                 </View>
               ))
@@ -369,7 +390,7 @@ export default class orderDetail extends Component {
                   </Picker>
               }
               {
-                (order.take_status == 0 && order.take_id == 0) || order.take_status == 5
+                ((order.take_status == 0 && order.take_id == 0) || order.take_status == 5)
                 && <View className='item-button default-button'>确认发货</View>
               }
             </View>
@@ -494,6 +515,7 @@ export default class orderDetail extends Component {
 					</Timeline>
 				</AtFloatLayout>
       </View>
+      : <AtActivityIndicator size={32} color='#FF8F1F' mode='center'></AtActivityIndicator>
     )
   }
 }
