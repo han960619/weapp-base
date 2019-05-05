@@ -11,7 +11,6 @@ export default class OrderSetting extends Component {
 
   config = {
     navigationBarTitleText: '订单设置',
-    disableScroll: true
   }
 
   state = {

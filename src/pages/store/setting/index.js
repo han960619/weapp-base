@@ -58,7 +58,7 @@ export default class StoreSetting extends Component {
     }).then((res) => {
       if(res != '203') {
         Taro.showToast({
-          title: status == 1 ? '好好休息一下吧' : '准备开门营业吧',
+          title: status == 2 ? '好好休息一下吧' : '准备开门营业吧',
           icon: 'none',
           mask: true,
         }).then(() => {

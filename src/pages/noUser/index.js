@@ -25,7 +25,7 @@ export default class NoUser extends Component {
 
   render () {
     return (
-      <View>
+      <View class='no-user-page'>
         <EmptyPage 
           tip='抱歉，当前员工账号已被停用'
           image={noUserPng}

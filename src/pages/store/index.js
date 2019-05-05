@@ -87,7 +87,7 @@ export default class Store extends Component {
   }
 
   changeStatus = () => {
-    const { s_business } = this.props.storeData
+    const { s_business } = this.state
     Taro.showModal({
       content: `是否修改营业状态为${s_business == 1 ? '休息中' : '营业中'}`,
     }).then(res => {
@@ -172,8 +172,8 @@ export default class Store extends Component {
             <View className='warn-button' onClick={() => {this.setState({ transWarn: true })}}>知道了</View>
           </View>
         }
-        <View className='page-header'>
-          <Image className='header-image' src={s_business == 1 ? storeBg2Png : storeBg1Png} />
+        <View className={`page-header ${s_business == 1 ? 'status1' : 'status2'}`}>
+          <Image className={`header-image ${s_business == 1 ? 'status1' : 'status2'}`} src={s_business == 1 ? storeBg2Png : storeBg1Png} />
           <View className='header-title'>
             <Image className='title-logo' onClick={() => {this.linkTo(`/pages/store/setting/index?status=${s_business}`)}} src={store.b_logo} />
             <View className='title-name' onClick={() => {this.linkTo(`/pages/store/setting/index?status=${s_business}`)}}>{store.s_title}</View>
