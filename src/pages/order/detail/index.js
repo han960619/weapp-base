@@ -57,7 +57,7 @@ export default class orderDetail extends Component {
 			textStyle: 'dark'
 			})
 		Taro.setBackgroundColor({
-			backgroundColorTop: '#ffffff'
+			backgroundColorTop: '#fafafa'
     })
     this.fetchOrderDetail()
     Taro.stopPullDownRefresh()
@@ -222,10 +222,12 @@ export default class orderDetail extends Component {
       !loading ? 
       <View className='order-detail-page'>
         <View className='page-header'>
-          <Image className='header-icon' mode='widthFix' src={orderStatusImg[order.o_order_status]} />
+          
           <View className='header-title'>
-            <View className='title-status flex1'>{orderStatus[order.o_order_status]}
+            <View className='title-status'>{orderStatus[order.o_order_status]}
             </View>
+            <Image className='header-icon ' mode='widthFix' src={orderStatusImg[order.o_order_status]} />
+            <View className='flex1'></View>
             <View className='title-time'>{order.o_reserve_time} </View>
             <View className='title-type'>{order.o_take_type == 3 ? '送达' : '取餐'}</View>
           </View>
@@ -280,7 +282,9 @@ export default class orderDetail extends Component {
             }
             {
               (order.o_order_status != 41 && order.o_order_status != 42) 
-              &&  <View className='warn-text flex1'>{order.status_remark ? order.status_remark : order.o_refund_remark}</View>
+              &&  <View className='warn-text flex1'>
+                    <View className='reset-text'>{order.status_remark ? order.status_remark : order.o_refund_remark}</View>
+                  </View>
             }
             {
               (order.o_order_status != 1 && order.o_take_type != 3) && order.o_take_no
@@ -363,7 +367,7 @@ export default class orderDetail extends Component {
             <View className='options-box'>
               <View className='item-button close-button' onClick={() => { this.linkToRefund() }}>退款</View>
               <View className='flex1'></View>
-              <View className='item-button ok-button'  onClick={() => { this.fetchOption('makeComplete') }}>开始制作</View>
+              <View className='item-button ok-button'  onClick={() => { this.fetchOption('makeStart') }}>开始制作</View>
             </View>
           }
           {
@@ -475,7 +479,7 @@ export default class orderDetail extends Component {
         <AtFloatLayout title='配送取消原因' isOpened={showCause} onClose={() => {this.setState({ showCause: false })}}>
 					<View className='cause-row'>
 						<View className='row-label'>骑手</View>
-						<View className='row-text'>{order.take_transporter_name ? order.take_transporter_name + ' / ' + order.take_transporter_phone : '骑手未接单'}</View>
+						<View className='row-text'>{order.transporter_name ? order.transporter_name + ' / ' + order.transporter_phone : '骑手未接单'}</View>
 					</View>
 					<View className='cause-row'>
 						<View className='row-label'>原因</View>

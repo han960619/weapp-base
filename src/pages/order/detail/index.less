@@ -11,11 +11,9 @@
 		border-radius:20px 20px 0px 0px;
 		padding: 36px 30px;
 		.header-icon {
-			position: absolute;
-			top: 36px;
-			left: 238px;
 			width: 88px;
 			height: 88px;
+			margin-left: 40px;
 		}
 		.header-title {
 			display: flex;
@@ -45,9 +43,13 @@
 				margin-right: 10px;
 			}
 			.reset-text {
+				max-width: 400px;
 				font-size: 32px;
 				font-weight: bold;
 				color: #fff;
+				overflow:hidden;
+				text-overflow:ellipsis; 
+				white-space: nowrap;
 			}
 			.chevron-right {
 				transform: translateY(-2px);

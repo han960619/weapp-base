@@ -365,17 +365,20 @@ export default class orderSearch extends Component {
                                   {
                                     order.o_order_status == 42
                                     && <View className='item-option item-status4'>
-                                        <View className='button-group'>
-                                          <View className='flex1'></View>
-                                          {
-                                            order.take_id == 1
-                                            ? <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
-                                            : <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
+                                        {
+                                          order.take_id == 1
+                                          ? <View className='button-group'>
+                                              <View className='flex1'></View>
+                                              <View className='item-button ok-button' onClick={() => { this.fetchOption(order, 'reachTake') }}>确认送达</View>
+                                            </View>
+                                          : <View className='button-group'>
+                                              <View className='flex1'></View>
+                                              <View className='reset' onClick={() => {this.fetchTakeLog(order)}}>
                                                 <View className='reset-text'>{order.take_remark}</View>
                                                 <AtIcon value='chevron-right' class='chevron-right' size='20' color='#FF8F1F'></AtIcon>
                                               </View>
-                                          }
-                                        </View>
+                                            </View>
+                                        }
                                       </View>
                                   }
                                 </View>
