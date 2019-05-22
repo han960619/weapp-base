@@ -62,3 +62,31 @@ export async function changePrinter(params) {
 	},true,3);
 }
 
+export async function getCouponList(params) {
+	return request('/addons.diancan.merchant.Coupon_list', {
+		method: 'POST',
+		data: {
+			...params,
+		},
+	},true,3);
+}
+
+export async function getFullSendList(params) {
+	return request('/addons.diancan.merchant.FullSend_list', {
+		method: 'POST',
+		data: {
+			...params,
+		},
+	},true,3);
+}
+
+export async function getBaoList(params) {
+	return request('/addons.diancan.merchant.Bao_list', {
+		method: 'POST',
+		data: {
+			...params,
+		},
+	},true,3);
+}
+
+

@@ -5,7 +5,6 @@ import { AtForm, AtInput, AtButton } from 'taro-ui'
 import classnames from 'classnames'
 import GetCodeForm from '../../components/GetCodeForm'
 import './index.less'
-import toastPng from '../../assets/images/toast-warn.png'
 import loginBg from '../../assets/images/loginBg.png'
 import telephonePng from '../../assets/images/telephone.png'
 import passwordPng from '../../assets/images/password.png'
@@ -27,7 +26,7 @@ export default class Login extends Component {
     mobile: '',
     password: '',
     code: '',
-    active: 1,
+    active: 2,
   }
 
   onSubmit = () => {
@@ -111,12 +110,12 @@ export default class Login extends Component {
         <Image className='page-bg' src={loginBg} />
         <View className='page-header'>
           <View
+            className={classnames('header-title useless', active === 2 ? 'active' : '')}
+            onClick={() => { this.changeTab(2) }}>密码登录</View>
+          <View
             className={classnames('header-title normal', active === 1 ? 'active' : '')}
             onClick={() => { this.changeTab(1) }}>验证码登录</View>
           <View className='line'></View>
-          <View
-            className={classnames('header-title useless', active === 2 ? 'active' : '')}
-            onClick={() => { this.changeTab(2) }}>密码登录</View>
         </View>
         <AtForm
           className='login-form'
@@ -129,7 +128,6 @@ export default class Login extends Component {
                   <Image className='row-bg bg-phone' src={telephonePng} />
                   <AtInput
                     name='mobile'
-                    type='number'
                     clear
                     border={false}
                     maxLength={10}

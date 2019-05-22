@@ -1,4 +1,4 @@
-import { fetchTakeaway, fetchOrder, fetchRepast, getPrinterList, savePrinter, delPrinter, changePrinter } from '../services/desk';
+import { fetchTakeaway, fetchOrder, fetchRepast, getPrinterList, getCouponList, getFullSendList, getBaoList, savePrinter, delPrinter, changePrinter } from '../services/desk';
 
 export default {
 	namespace: 'desk',
@@ -8,27 +8,36 @@ export default {
 	},
 
 	effects: {
-		* fetchOrder({payload}, {put, call}) {
+		* fetchOrder({payload}, {call}) {
 			return yield call(fetchOrder, payload);
 		},
-		* fetchTakeaway({payload}, {put, call}) {
+		* fetchTakeaway({payload}, {call}) {
 			return yield call(fetchTakeaway, payload);
 		},
-		* fetchRepast({payload}, {put, call}) {
+		* fetchRepast({payload}, {call}) {
 			return yield call(fetchRepast, payload);
 		},
-		* getPrinterList({payload}, {put, call}) {
+		* getPrinterList({payload}, {call}) {
 			const response = yield call(getPrinterList, payload);
 			return response
 		},
-		* savePrinter({payload}, {put, call}) {
+		* savePrinter({payload}, {call}) {
 			return yield call(savePrinter, payload);
 		},
-		* delPrinter({payload}, {put, call}) {
+		* delPrinter({payload}, {call}) {
 			return yield call(delPrinter, payload);
 		},
-		* changePrinter({payload}, {put, call}) {
+		* changePrinter({payload}, {call}) {
 			return yield call(changePrinter, payload);
+		},
+		* getCouponList({payload}, {call}) {
+			return yield call(getCouponList, payload);
+		},
+		* getFullSendList({payload}, {call}) {
+			return yield call(getFullSendList, payload);
+		},
+		* getBaoList({payload}, {call}) {
+			return yield call(getBaoList, payload);
 		}
 	},
 	reducers: {

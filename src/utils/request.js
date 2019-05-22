@@ -1,6 +1,10 @@
 import Taro from '@tarojs/taro';
-import store from '../store'
-import toastPng from '../assets/images/toast-warn.png'
+
+/**
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "httpRequest"
+ * @return {string} needToken   判断接口是否需要token及token放置位置 参数枚举：'url', 'data', ''
+ */
 export default function request(url, options = { method: 'GET', data: {} }, needToken = true, noPower = 2) {
   let domain = 'https://wxapp.xiaomafeiteng.com'
 
@@ -31,7 +35,6 @@ export default function request(url, options = { method: 'GET', data: {} }, need
           url: '/pages/login/index'
         })
       } else if(+data.code === 202) { 
-        console.log(1)
         Taro.navigateTo({ url: '/pages/noUser/index' })
         return '202'
       } else if(+data.code === 203) { 
@@ -56,6 +59,8 @@ export default function request(url, options = { method: 'GET', data: {} }, need
           })
         }
         return '203'
+      } else if(+data.code === 404) { 
+        return '404'
       } else {
         Taro.showToast({
           title: data.message,

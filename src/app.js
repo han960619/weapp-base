@@ -31,12 +31,19 @@ class App extends Component {
       'pages/setting/addPrinter/index',
       'pages/setting/repast/index',
       'pages/setting/takeaway/index',
+      'pages/setting/coupon/index',
+      'pages/setting/searchCoupon/index',
+      'pages/setting/enterShop/index',
+      'pages/setting/fullOrder/index',
+      'pages/setting/overtime/index',
+      'pages/setting/payment/index',
       'pages/store/index',
       'pages/store/goods/index',
       'pages/store/searchGoods/index',
       'pages/store/asset/index',
       'pages/store/setting/index',
       'pages/store/data/index',
+      'pages/error-page/index',
       'pages/storeList/index',
       'pages/desk/index',
       'pages/noUser/index'
@@ -64,7 +71,7 @@ class App extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: '/pages/storeList/index'
+        url: 'pages/storeList/index'
       })
     }else {
       Taro.redirectTo({

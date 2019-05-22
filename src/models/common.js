@@ -32,6 +32,7 @@ export default {
 			},
 			* getStoreData({payload}, {put, call}) {
 				const response = yield call(getStoreData, payload);
+				if(!response) return 
 				Taro.setStorageSync('nickname', response.nickname )
 				yield put({
 					type: 'saveStoreData',

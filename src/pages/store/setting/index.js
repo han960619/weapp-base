@@ -49,22 +49,28 @@ export default class StoreSetting extends Component {
 
   changeStoreStatus = (status) => {
     // to do 门店切换接口
-    this.props.dispatch({
-      type: 'store/fetchStoreStatus',
-      payload: {
-        store_id: Taro.getStorageSync('storeId'),
-        status
-      }
-    }).then((res) => {
-      if(res != '203') {
-        Taro.showToast({
-          title: status == 2 ? '好好休息一下吧' : '准备开门营业吧',
-          icon: 'none',
-          mask: true,
-        }).then(() => {
-          this.setState({
+    Taro.showModal({
+      content: `是否修改营业状态为${status == 2 ? '休息中' : '营业中'}`,
+    }).then(res => {
+      if(res.confirm) {
+        this.props.dispatch({
+          type: 'store/fetchStoreStatus',
+          payload: {
+            store_id: Taro.getStorageSync('storeId'),
             status
-          })
+          }
+        }).then((res) => {
+          if(res != '203') {
+            Taro.showToast({
+              title: '切换成功',
+              icon: 'success',
+              mask: true,
+            }).then(() => {
+              this.setState({
+                status
+              })
+            })
+          }
         })
       }
     })

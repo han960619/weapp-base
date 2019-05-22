@@ -1,19 +1,19 @@
   
- import order_status1Png from '../assets/images/order_status1.png'
- import order_status2Png from '../assets/images/order_status2.png'
- import order_status3Png from '../assets/images/order_status3.png'
- import order_status31Png from '../assets/images/order_status31.png'
- import order_status32Png from '../assets/images/order_status32.png'
- import order_status4Png from '../assets/images/order_status4.png'
- import order_status41Png from '../assets/images/order_status41.png'
- import order_status42Png from '../assets/images/order_status42.png'
- import order_status5Png from '../assets/images/order_status5.png'
- import order_status6Png from '../assets/images/order_status6.png'
- import order_status7Png from '../assets/images/order_status7.png'
- import order_status8Png from '../assets/images/order_status8.png'
+import order_status1Png from '../assets/images/order_status1.png'
+import order_status2Png from '../assets/images/order_status2.png'
+import order_status3Png from '../assets/images/order_status3.png'
+import order_status31Png from '../assets/images/order_status31.png'
+import order_status32Png from '../assets/images/order_status32.png'
+import order_status4Png from '../assets/images/order_status4.png'
+import order_status41Png from '../assets/images/order_status41.png'
+import order_status42Png from '../assets/images/order_status42.png'
+import order_status5Png from '../assets/images/order_status5.png'
+import order_status6Png from '../assets/images/order_status6.png'
+import order_status7Png from '../assets/images/order_status7.png'
+import order_status8Png from '../assets/images/order_status8.png'
  
  // 打印机数量枚举
-  export const orderTabList = [
+export const orderTabList = [
 	{ 
 		title: '待处理',
 		status: 9
@@ -219,3 +219,6 @@ export const printList = [
 	  value: 4
 	},
 ]
+
+export const couponTabList = [{ title: '全部' }, { title: '未开始' }, { title: '进行中' }, { title: '已结束' }]
+
