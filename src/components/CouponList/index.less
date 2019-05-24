@@ -1,0 +1,105 @@
+.tab-content {
+	padding:30px 0 10px;
+}
+.coupon-list{
+	width: 678px;
+	margin: 0 auto 0;
+	position: relative;
+	min-height: ~"calc(100% - 30px)";
+	box-sizing: border-box;
+}
+
+.item{
+	margin-bottom: 48px;
+	&:last-child{
+		margin-bottom: 100px;
+	}
+	.entity{
+		display: flex;
+		height: 200px;
+		border-radius: 24px;
+		box-shadow: 0 10px 40px rgba(221,221,221,0.5);
+		position: relative;
+		.deno{
+			width: 240px;
+			font-size: 28px;
+			color: #fff;
+			text-align: center;
+			border-radius: 24px 0 0 24px;
+			background: #ccc;
+			&.bg {
+				background:rgba(241,124,14,1);
+			}
+			.price{
+				margin: 40px 0 16px;
+				&>text{
+					font-size: 24px;
+					font-weight: normal;
+				}
+				.num{
+					font-size: 48px;
+					font-weight: bold;
+				}
+			}
+		}
+		.desc{
+			flex: 1;
+			background: #fff;
+			padding: 0 36px;
+			box-sizing: border-box;
+			font-size: 36px;
+			border-radius: 0 24px 24px 0;
+			.name{
+				margin-top: 18px;
+				color: #404040;
+				font-weight: bold;
+				display: -webkit-box;
+				word-break: break-all;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				&.disabled{
+					color: #999;
+				}
+			}
+			.time{
+				font-size: 24px;
+				margin-top: 10px;
+				height: 64px;
+				line-height: 34px;
+				color: #666;
+			}
+			.btn{
+				padding: 10px 0 20px;
+				font-size: 24px;
+				color: #999;
+			}
+		}
+		.handle, button{
+			writing-mode: tb-rl;
+			font-size: 28px;
+			letter-spacing: 15px;
+			text-align: center;
+			width: 48px;
+			line-height: 48px;
+			color: #fff;
+			border-radius: 0 24px 24px 0;
+			padding: 0;
+			flex: 1;
+			background: #ccc;
+			border: none;
+		}
+	}
+	.condi{
+		font-size: 24px;
+		background: #fff;
+		margin-top: -40px;
+		padding: 50px 0 20px 27px;
+		border-radius: 0 0 24px 24px;
+		&>view{
+			margin: 16px 0;
+			color: #999;
+		}
+	}
+}
