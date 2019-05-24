@@ -44,11 +44,10 @@ class CouponModal extends Component {
                       <Text>&yen;</Text>
                       <Text className='font-xin-bold num'>{item.c_price}</Text>
                     </View>
-                    <Button
-                      formType='submit'
+                    <View
                       style={{color: font_color, backgroundColor: butto_color}}
                       className={classnames('handle')}
-                    >去使用</Button>
+                    >去使用</View>
                   </View>
                 </View>
               ))

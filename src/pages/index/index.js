@@ -18,7 +18,7 @@ export default class Index extends Component {
     const token = Taro.getStorageSync('token')
     if(token) {
       Taro.reLaunch({
-        url: 'pages/storeList/index'
+        url: '/pages/storeList/index'
       })
     }else {
       Taro.redirectTo({
