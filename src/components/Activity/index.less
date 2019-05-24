@@ -1,52 +1,57 @@
 .active-page {
   padding: 40px 0;
   .item-group {
-    margin-bottom: 60px;
-    .group-title {
-      margin-bottom: 30px;
-      padding: 0 40px;
-      font-size:28px;
-      font-weight:bold;
-      line-height:45px;
-      color:rgba(153,153,153,1);
-    }
-    .item {
-      padding: 0 40px;
-      font-size:32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 110px;
-      background-color: #fff;
-      .item-label {
-        flex: 1;
-        font-weight:bold;
-        color:rgba(64,64,64,1);
-      }
-      .item-value {
-        font-weight:bold;
-        color:#999;
-        at-icon {
-          text {
-            transform: translateY(-1px);
-          }
+		margin-bottom: 60px;
+		.group-title {
+			margin-bottom: 30px;
+			padding: 0 40px;
+			font-size:28px;
+			font-weight:bold;
+			line-height:45px;
+			color:rgba(153,153,153,1);
+		}
+		.item {
+			padding: 0 40px;
+			font-size:32px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 110px;
+			background-color: #fff;
+			.item-label {
+				flex: 1;
+				font-weight:bold;
+				color:rgba(64,64,64,1);
+			}
+			.item-value {
+				font-weight:bold;
+				color:#999;
+				at-icon {
+					text {
+						transform: translateY(-1px);
+					}
 				}
 				&.time {
 					text-align: right;
 				}
-      }
+			}
 		}
 	}
 	.good-list {
 		background-color: #fff;
+		// display: flex;
 		.good-item {
 			padding: 40px 40px 0;
 			display: flex;
 			align-items: center;
+			// flex: 1;
+			// text-align: center;
 			.item-image {
 				width: 120px;
 				height: 120px;
 				margin-right: 40px;
+				border-radius: 16px;
+				// margin: 0 auto;
 			}
 			.item-name {
 				font-size:28px;
@@ -60,16 +65,16 @@
 		}
 	}
   .page-button {
-    margin: 0 80px;
-    width: 590px;
-    height: 96px;
-    text-align: center;
-    line-height: 96px;
-    background:linear-gradient(90deg,rgba(255,179,102,1) 0%,rgba(255,136,31,1) 100%);
-    box-shadow:0px 10px 20px rgba(255,143,31,0.2);
-    border-radius:48px;
-    color: #fff;
-    font-size:36px;
-    font-weight:bold;
+	margin: 0 80px;
+	width: 590px;
+	height: 96px;
+	text-align: center;
+	line-height: 96px;
+	background:linear-gradient(90deg,rgba(255,179,102,1) 0%,rgba(255,136,31,1) 100%);
+	box-shadow:0px 10px 20px rgba(255,143,31,0.2);
+	border-radius:48px;
+	color: #fff;
+	font-size:36px;
+	font-weight:bold;
   }
 }

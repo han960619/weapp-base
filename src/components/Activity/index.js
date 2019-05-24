@@ -151,7 +151,7 @@ class Activity extends Component {
                     a_type == 2 && data.goodsList.map((good, index) => (
                       <View class='good-item' key={index}>
                         <Image src={good.gn_image} class='item-image'/>
-                        <View class='item-name'>{good.gn_name}</View>
+                        <View class='item-name'>{good.g_title}</View>
                       </View>
                     ))
                   }
@@ -201,7 +201,7 @@ class Activity extends Component {
                               : <View className='row-list'>
                                   {
                                     item.list.map((i, j) => (
-                                      <View key={j} className='rule-item'>{i}</View>
+                                      <View key={j} className='rule-item'>{j + 1}. {i}</View>
                                     ))
                                   }
                                 </View>
