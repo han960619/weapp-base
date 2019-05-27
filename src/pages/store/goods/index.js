@@ -142,6 +142,7 @@ export default class Goods extends Component {
         if (this.curGroupGoodId !== this.state.group[item.index].group_id) {
           this.setState({
             scrollCurGroupId: item.group_id,
+            curGroupGoodId: null
           })
         } else{
           this.curGroupGoodId = null
