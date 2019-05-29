@@ -84,7 +84,8 @@ class Activity extends Component {
       },
       { 
         title: '面值',
-        value: detailData.c_price
+        value: detailData.c_price,
+        num: true
       },
       { 
         title: '有效期',
@@ -179,7 +180,7 @@ class Activity extends Component {
                 </View>
                 <View class='item'>
                   <View class='item-label'>活动状态</View>
-                  <View class='item-value'>{data.status == 1 ? '开启' : '关闭'}</View>
+                  <View class='item-value'>{data.status == 1 ? '启用' : '关闭'}</View>
                 </View>
               </View>
               <View class='page-button' onClick={this.showCoupon}>预览</View>
@@ -209,7 +210,7 @@ class Activity extends Component {
                           </View>
                         : <View className='cause-row'>
                             <View className='row-label'>{item.title}</View>
-                            <View className='row-value'>{item.value}</View>
+                            <View className={`row-value ${item.num ? 'red' : ''}`}>{item.num ? ('¥' + item.value) : item.value}</View>
                           </View>
                       }
                     </View>
