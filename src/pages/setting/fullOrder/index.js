@@ -80,7 +80,7 @@ export default class FullOrder extends Component {
                     data.fs_min_price != 0 &&
                     <View class='item'>
                       <View class='item-label'>规则1</View>
-                      <View class='item-value'>单次消费满￥${data.fs_min_price}以上</View>
+                      <View class='item-value'>单次消费满￥{data.fs_min_price}以上</View>
                     </View>
                   }
                   {
