@@ -70,6 +70,11 @@ export default class Desk extends Component {
           image: require('../../assets/images/desk_overtime.png'),
           value: '超时有礼',
           type: 'overtime'
+        },
+        {
+          image: require('../../assets/images/desk_fullDiscount.png'),
+          value: '满减优惠',
+          type: 'fullDiscount'
         }
       ]
     }

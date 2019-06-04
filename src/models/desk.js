@@ -1,4 +1,4 @@
-import { fetchTakeaway, fetchOrder, fetchRepast, getPrinterList, getCouponList, getFullSendList, getBaoList, savePrinter, delPrinter, changePrinter } from '../services/desk';
+import { fetchTakeaway, fetchOrder, fetchRepast, getPrinterList, getCouponList, getFullDiscountList, getFullSendList, getBaoList, savePrinter, delPrinter, changePrinter } from '../services/desk';
 
 export default {
 	namespace: 'desk',
@@ -38,7 +38,10 @@ export default {
 		},
 		* getBaoList({payload}, {call}) {
 			return yield call(getBaoList, payload);
-		}
+		},
+		* getFullDiscountList({payload}, {call}) {
+			return yield call(getFullDiscountList, payload);
+		},
 	},
 	reducers: {
 	}

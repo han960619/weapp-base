@@ -332,6 +332,13 @@ export default class orderDetail extends Component {
                 <View className='rows-num red-text'>- <Text>&yen;</Text> {order.o_coupon_amount}</View>
               </View>
             }
+            {
+              order.o_full_discount_price != '0.00' &&
+              <View className='money-rows'>
+                <View className='rows-label'>满减优惠</View>
+                <View className='rows-num red-text'>- <Text>&yen;</Text> {order.o_full_discount_price}</View>
+              </View>
+            }
             <View className='money-rows'>
               <View className='rows-label'>合计</View>
               {

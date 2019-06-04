@@ -89,4 +89,13 @@ export async function getBaoList(params) {
 	},true,3);
 }
 
+export async function getFullDiscountList(params) {
+	return request('/addons.diancan.merchant.FullDiscount_list', {
+		method: 'POST',
+		data: {
+			...params,
+		},
+	},true,3);
+}
+
 

@@ -37,6 +37,7 @@ class App extends Component {
       'pages/setting/fullOrder/index',
       'pages/setting/overtime/index',
       'pages/setting/payment/index',
+      'pages/setting/fullDiscount/index',
       'pages/store/index',
       'pages/store/goods/index',
       'pages/store/searchGoods/index',
